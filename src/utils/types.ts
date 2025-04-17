@@ -6,7 +6,7 @@ export type LeaveDetail = {
   leave_apply_date: string;
   is_approved: boolean;
   reason: string;
-  source: string;
+  approverId: string;
 };
 
 export type LeaveSummary = {
@@ -16,11 +16,27 @@ export type LeaveSummary = {
 };
 
 export type Employee = {
+  id: string;
   name: string;
-  role: string;
+  roleHierarchy: number;
+  department: string;
+  designation: string;
   email: string;
   status: string;
   joinedDate: string;
   leaves: LeaveSummary;
   leaveDetails: LeaveDetail[];
+};
+
+export type UserContextType = {
+  isLoggedIn: boolean;
+  token: string | null;
+  userId: string | null;
+  isSuperUser: boolean;
+  currentUser: Employee | null;
+  login: (token: string, userId: string, isSuperUser: boolean) => void;
+  logout: () => void;
+  getUserData: () => void;
+  getLocalItem: (key: string) => string | null;
+  setLocalItem: (key: string, value: string) => void;
 };

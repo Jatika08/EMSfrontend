@@ -12,7 +12,6 @@ function LeavesCalender({ month, year }: { month: number; year: number }) {
 
   const day = firstDay.toLocaleString("en-US", { weekday: "short" });
   const firstDayIndex = dayNames.indexOf(day);
-  //console.log((14-firstDayIndex)%7+1)
 
   let calendarBegin = 1;
   let previousMonthEnded = false;
