@@ -11,7 +11,7 @@ function LeavesCalender({ month, year }: { month: number; year: number }) {
   if (isLeap) adjustedDaysInMonth[1] = 29;
 
   const day = firstDay.toLocaleString("en-US", { weekday: "short" });
-  const firstDayIndex = dayNames.indexOf(day);
+  const firstDayNumber = dayNames.indexOf(day) + 1;
 
   let calendarBegin = 1;
   let previousMonthEnded = false;
@@ -121,10 +121,10 @@ function LeavesCalender({ month, year }: { month: number; year: number }) {
                         visibility: leaves ? "visible" : "hidden",
                       }}
                     >
-                      {leaves?.user_email?.split("@")[0].replace(/\./g, " ")}
-                      {/* {(leaves?.isStart ||
-                        ((day.label - firstDayIndex) % 7) + 1 === 0) &&
-                        leaves.user_email?.split("@")[0].replace(/\./g, " ")} */}
+                      {/* {leaves?.user_email?.split("@")[0].replace(/\./g, " ")} */}
+                      {(leaves?.isStart ||
+                        (day.label - 1 + (3 - firstDayNumber)) % 7 === 0) &&
+                        leaves.user_email?.split("@")[0].replace(/\./g, " ")}
                     </div>
                   ))}
                 </div>

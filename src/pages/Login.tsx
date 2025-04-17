@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Lock, Mail, User } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { loginUser, registerUser } from "../utils/api";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../contexts/UserContextProvider";
 
 export const LoginPage = () => {
   const [form, setForm] = useState({
@@ -8,7 +12,34 @@ export const LoginPage = () => {
     password: "",
     confirmPassword: "",
   });
+  const navigate = useNavigate();
   const [registering, setRegistering] = useState(false);
+  const { login } = useContext(UserContext);
+
+  const loginMutation = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (data) => {
+      login(data.token, data.user.id, data.user.isSuperUser);
+      navigate("/");
+    },
+    onError: (err: any) => {
+      alert("Login failed: " + err?.response?.data?.message || "Unknown error");
+    },
+  });
+
+  const registerMutation = useMutation({
+    mutationFn: registerUser,
+    onSuccess: (data) => {
+      alert("Registered successfully! Please login.");
+      setRegistering(false);
+    },
+    onError: (err: any) => {
+      alert(
+        "Registration failed: " + err?.response?.data?.message ||
+          "Unknown error"
+      );
+    },
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,11 +48,20 @@ export const LoginPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (registering) {
-      // Handle registration logic
-      console.log("Register:", form);
+      if (form.password !== form.confirmPassword) {
+        alert("Passwords do not match");
+        return;
+      }
+      registerMutation.mutate({
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
     } else {
-      // Handle login logic
-      console.log("Login:", form);
+      loginMutation.mutate({
+        email: form.email,
+        password: form.password,
+      });
     }
   };
 
@@ -33,14 +73,19 @@ export const LoginPage = () => {
             {registering ? "Create Account" : "Welcome Back"}
           </h1>
           <p className="text-sm text-stone-400">
-            {registering ? "Register to continue" : "Please sign in to continue"}
+            {registering
+              ? "Register to continue"
+              : "Please sign in to continue"}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {registering && (
             <div className="relative">
-              <User className="absolute left-3 top-3 text-stone-500" size={18} />
+              <User
+                className="absolute left-3 top-3 text-stone-500"
+                size={18}
+              />
               <input
                 type="text"
                 name="name"
@@ -81,7 +126,10 @@ export const LoginPage = () => {
 
           {registering && (
             <div className="relative">
-              <Lock className="absolute left-3 top-3 text-stone-500" size={18} />
+              <Lock
+                className="absolute left-3 top-3 text-stone-500"
+                size={18}
+              />
               <input
                 type="password"
                 name="confirmPassword"
