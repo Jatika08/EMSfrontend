@@ -2,14 +2,15 @@ import {
   Plus,
   Search,
   SlidersHorizontal,
-  //   FileText,
-  //   ShieldCheck,
-  //   UserPlus,
+  FileText,
+  ShieldCheck,
+  UserPlus,
   X,
 } from "lucide-react";
 import { useState } from "react";
 import EmployeeDetailsModal from "../components/EmployeeDetailsModal";
 import { AdminActions } from "../utils/enums";
+import { LeaveHeatMap } from "../components/LeaveHeatmap";
 
 const employeeList = [
   { name: "Grant Douglas Ward", id: "hdsf-1234", department: "Field Agents" },
@@ -278,7 +279,7 @@ const employee = [
 export const Admin = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<
-    typeof employee[0] | null
+    (typeof employee)[0] | null
   >(employee[0]);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -420,59 +421,42 @@ export const Admin = () => {
       </div>
 
       {/* Right panel */}
-      <div className="flex-1 bg-gradient-to-br from-stone-950/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200 overflow-y-scroll" />
-
-      {/* Modal */}
-      <EmployeeDetailsModal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        selectedAction={selectedActionType}
-        employee={selectedEmployee!}
-      >
-        <i className="text-xl font-bold w-full mb-4">
-          {selectedActionType === AdminActions.VIEW_EMPLOYEE
-            ? "Employee Details"
-            : "Employee management"}
-        </i>
-      </EmployeeDetailsModal>
-    </div>
-  );
-};
-{
-  /* <div className="flex flex-col gap-2 mt-2">
+      <div className="flex-1 bg-gradient-to-br from-stone-950/80 to-stone-900/80 rounded-3xl border border-stone-700/30 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200 overflow-y-scroll">
+        <EmployeeDetailsModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          selectedAction={selectedActionType}
+          employee={selectedEmployee!}
+        >
+          <i className="text-xl font-bold w-full mb-4">
+            {selectedActionType === AdminActions.VIEW_EMPLOYEE
+              ? "Employee Details"
+              : "Employee management"}
+          </i>
+        </EmployeeDetailsModal>
+        <LeaveHeatMap />
+        <div className="p-6 flex flex-col gap-4">
           <div className="text-stone-400 text-sm font-semibold">
             Employee Management
           </div>
+          <div className="flex flex-row gap-2 mt-2">
+            <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-stone-800/70 hover:bg-stone-700/70 text-left text-sm text-stone-300 transition-all">
+              <UserPlus size={16} className="text-stone-400" />
+              Add Employee
+            </button>
 
-          <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-stone-800/70 hover:bg-stone-700/70 text-left text-sm text-stone-300 transition-all">
-            <UserPlus size={16} className="text-stone-400" />
-            Add Employee
-          </button>
+            <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-stone-800/70 hover:bg-stone-700/70 text-left text-sm text-stone-300 transition-all">
+              <FileText size={16} className="text-stone-400" />
+              View All Records
+            </button>
 
-          <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-stone-800/70 hover:bg-stone-700/70 text-left text-sm text-stone-300 transition-all">
-            <FileText size={16} className="text-stone-400" />
-            View All Records
-          </button>
-
-          <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-stone-800/70 hover:bg-stone-700/70 text-left text-sm text-stone-300 transition-all">
-            <ShieldCheck size={16} className="text-stone-400" />
-            Assign Roles
-          </button>
-        </div>
-
-        <div className="flex flex-col gap-2 mt-2">
-          <div className="text-stone-400 text-sm font-semibold">
-            Events Management
+            <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-stone-800/70 hover:bg-stone-700/70 text-left text-sm text-stone-300 transition-all">
+              <ShieldCheck size={16} className="text-stone-400" />
+              Assign Roles
+            </button>
           </div>
-          <button className="px-4 py-2 rounded-lg bg-stone-800/70 hover:bg-stone-700/70 text-left text-sm text-stone-300 transition-all">
-            ➕ Add Employee
-          </button>
-
-          <button className="px-4 py-2 rounded-lg bg-stone-800/70 hover:bg-stone-700/70 text-left text-sm text-stone-300 transition-all">
-            🧾 View All Records
-          </button>
-          <button className="px-4 py-2 rounded-lg bg-stone-800/70 hover:bg-stone-700/70 text-left text-sm text-stone-300 transition-all">
-            🛡️ Assign Roles
-          </button>
-        </div> */
-}
+        </div>
+      </div>
+    </div>
+  );
+};

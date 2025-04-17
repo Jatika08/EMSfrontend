@@ -49,11 +49,11 @@ const EmployeeDetailsModal = ({
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 w-screen h-screen antialiased"
+      className=" bg-black/40 backdrop-blur-sm flex z-50 antialiased"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-[90%] max-w-7xl max-h-[90%] overflow-hidden 
+        className=" w-full max-h-[90%]  
             bg-gradient-to-br from-stone-950/80 to-stone-900/80
             border border-stone-700/30 
             rounded-3xl p-6 
@@ -71,9 +71,7 @@ const EmployeeDetailsModal = ({
         {selectedAction === AdminActions.VIEW_EMPLOYEE && (
           <EmployeeDetails employee={employee} />
         )}
-        {selectedAction === AdminActions.ADD_EMPLOYEE && (
-          <AddEmployeePage />
-        )}
+        {selectedAction === AdminActions.ADD_EMPLOYEE && <AddEmployeePage />}
         <div className="h-128"></div>
       </div>
     </div>
