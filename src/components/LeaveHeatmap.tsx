@@ -4,7 +4,7 @@ import { addMonths, format, startOfMonth } from "date-fns";
 import HeatCalender from "./subcomponents/HeatCalender";
 
 export const LeaveHeatMap = () => {
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(2);
 
   const getVisibleMonths = () => {
     const months: Date[] = [];
@@ -34,7 +34,7 @@ export const LeaveHeatMap = () => {
           </div>
 
           <div
-            onClick={() => setOffset(0)}
+            onClick={() => setOffset(2)}
             className="bg-stone-800 hover:bg-stone-600 rounded-md w-8 h-8 flex items-center justify-center cursor-pointer transition-colors"
           >
             <Home size={16} />

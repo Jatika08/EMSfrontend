@@ -421,7 +421,7 @@ export const Admin = () => {
       </div>
 
       {/* <div className="flex-1 bg-gradient-to-br from-stone-950/80 to-stone-900/80 rounded-3xl border border-stone-700/30 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200 overflow-y-scroll"> */}
-      <div className="flex w-full flex-col gap-4 overflow-y-scroll">
+      <div className="flex w-full flex-col gap-4 ">
         <EmployeeDetailsModal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}

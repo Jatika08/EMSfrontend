@@ -32,7 +32,7 @@ export const AddEmployeePage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-stone-950 to-stone-900 ">
+    <div className="min-h-screen w-full bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl border border-stone-700/30 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)]">
       <div className="w-full   rounded-3xl p-10 flex flex-col gap-8 text-stone-200">
         <div className="flex flex-col gap-1">
           <i className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-400">
