@@ -289,8 +289,10 @@ export const Admin = () => {
   );
 
   const filteredEmployees = employee.filter((e) =>
-    e.id.toLowerCase().includes(searchValue.toLowerCase())
+    e.name.toLowerCase().includes(searchValue.toLowerCase())
   );
+
+  console.log("Filtered Employees: ", filteredEmployees);
 
   return (
     <div className="flex h-full w-full gap-4 px-6 py-4 pl-20">
