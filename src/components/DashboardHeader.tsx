@@ -1,3 +1,4 @@
+import { UserActions } from "../utils/enums";
 import {
   CalendarCheck,
   PlusCircle,
@@ -23,10 +24,12 @@ function DashboardHeader({
   userName = "Employee",
   isAdmin = true,
   setModalOpen,
+  setModalType,
 }: {
   userName?: string;
   isAdmin?: boolean;
   setModalOpen: (open: boolean) => void;
+  setModalType: React.Dispatch<React.SetStateAction<UserActions>>
 }) {
   const greeting = getGreeting();
 
@@ -48,22 +51,34 @@ function DashboardHeader({
         <QuickAction
           icon={<PlusCircle size={18} />}
           label="Apply Leave"
-          onClick={() => setModalOpen(true)}
+          onClick={() => {
+            setModalOpen(true);
+            setModalType(UserActions.APPLY_LEAVE);
+          }}
         />
         <QuickAction
           icon={<CalendarCheck size={18} />}
           label="My Leaves"
-          onClick={() => setModalOpen(true)}
+          onClick={() => {
+            setModalOpen(true);
+            setModalType(UserActions.VIEW_LEABES);
+          }}
         />
         <QuickAction
           icon={<Clock size={18} />}
           label="Leave Balance"
-          onClick={() => setModalOpen(true)}
+          onClick={() => {
+            setModalOpen(true);
+            setModalType(UserActions.LEAVE_BALANCE);
+          }}
         />
         <QuickAction
           icon={<History size={18} />}
           label="History"
-          onClick={() => setModalOpen(true)}
+          onClick={() => {
+            setModalOpen(true);
+            setModalType(UserActions.VIEW_EMPLOYEE);
+          }}
         />
         <QuickAction
           icon={<LogOut size={18} />}
