@@ -14,6 +14,8 @@ export const LoginPage = () => {
   });
   const navigate = useNavigate();
   const [registering, setRegistering] = useState(false);
+  const [step, setStep] = useState<1 | 2>(1);
+  const [otp, setOtp] = useState("");
   const { login } = useContext(UserContext);
 
   const loginMutation = useMutation({
@@ -47,16 +49,25 @@ export const LoginPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+  
     if (registering) {
-      if (form.password !== form.confirmPassword) {
-        alert("Passwords do not match");
-        return;
+      if (step === 1) {
+        if (otp === "123456") {
+          setStep(2);
+        } else {
+          alert("Invalid OTP");
+        }
+      } else {
+        if (form.password !== form.confirmPassword) {
+          alert("Passwords do not match");
+          return;
+        }
+        registerMutation.mutate({
+          name: form.name,
+          email: form.email,
+          password: form.password,
+        });
       }
-      registerMutation.mutate({
-        name: form.name,
-        email: form.email,
-        password: form.password,
-      });
     } else {
       loginMutation.mutate({
         email: form.email,
@@ -64,6 +75,7 @@ export const LoginPage = () => {
       });
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-950 to-stone-900 flex items-center justify-center px-4">
@@ -156,7 +168,7 @@ export const LoginPage = () => {
             className="text-stone-300 underline cursor-pointer"
             onClick={() => setRegistering(!registering)}
           >
-            {registering ? "Sign In" : "Sign Up"}
+            {registering ? "Sign In" : "Register"}
           </span>
         </div>
       </div>

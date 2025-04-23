@@ -93,22 +93,34 @@ function DashboardHeader({
           <QuickAction
             icon={<Users size={18} />}
             label="Manage Employees"
-            onClick={() => setModalOpen(true)}
+            onClick={() => {
+              setModalOpen(true);
+              setModalType(UserActions.VIEW_EMPLOYEE);
+            }}
           />
           <QuickAction
             icon={<UserCog size={18} />}
             label="Leave Approvals"
-            onClick={() => setModalOpen(true)}
+            onClick={() => {
+              setModalOpen(true);
+              setModalType(UserActions.VIEW_EMPLOYEE);
+            }}
           />
           <QuickAction
             icon={<ShieldCheck size={18} />}
             label="Admin Settings"
-            onClick={() => setModalOpen(true)}
+            onClick={() => {
+              setModalOpen(true);
+              setModalType(UserActions.VIEW_EMPLOYEE);
+            }}
           />
           <QuickAction
             icon={<FileBarChart2 size={18} />}
             label="Reports"
-            onClick={() => setModalOpen(true)}
+            onClick={() => {
+              setModalOpen(true);
+              setModalType(UserActions.VIEW_EMPLOYEE);
+            }}
           />
         </div>
       )}

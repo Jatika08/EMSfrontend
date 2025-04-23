@@ -1,6 +1,8 @@
+import { useToast } from "../contexts/CustomToast";
 import { useEffect, useRef } from "react";
 
 export const About = () => {
+  const showToast = useToast();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const gradients = [
@@ -49,7 +51,10 @@ export const About = () => {
 
       <div className="w-full max-w-4xl relative border border-stone-700/30 rounded-xl bg-gradient-to-br from-stone-800/60 to-stone-900/60 shadow-[inset_0_0_24px_rgba(0,0,0,0.4)] backdrop-blur-lg px-6 md:px-16 py-20 overflow-hidden z-10">
         {/* Gradient Columns */}
-        <div className="absolute inset-0 flex justify-center gap-0 opacity-100 pointer-events-none z-0">
+        <div
+          className="absolute inset-0 flex justify-center gap-0 opacity-100 pointer-events-none z-0"
+          
+        >
           {gradients.map(([from, via, to], i) => (
             <div
               key={i}
@@ -62,14 +67,15 @@ export const About = () => {
         </div>
 
         {/* Text Content */}
-        <div className="relative z-10 text-center max-w-3xl mx-auto space-y-6">
+        <div className="relative z-10 text-center max-w-3xl mx-auto space-y-6" onClick={() => showToast("You have applied for leave on date 2023-10-01.")}>
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-stone-100 drop-shadow-xl">
             Beneath the Evening Sky
           </h1>
           <p className="text-lg sm:text-xl text-stone-300 font-light leading-relaxed">
-            This space is a quiet reflection—where code meets calm.  
+            This space is a quiet reflection—where code meets calm.
             <br />
-            Inspired by twilight gradients, it's a digital pause between dusk and dawn.
+            Inspired by twilight gradients, it's a digital pause between dusk
+            and dawn.
           </p>
         </div>
       </div>

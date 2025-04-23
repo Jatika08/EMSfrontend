@@ -2,6 +2,7 @@
 
 import { UserActions } from "../utils/enums";
 import { DateRangeSelector } from "./DateRangeSelector";
+import { UnderDevelopment } from "./subcomponents/UnderDevelopment";
 
 interface ActionsModalProps {
   isOpen: boolean;
@@ -69,7 +70,7 @@ export const ActionModalHeader = ({ modalType }: { modalType: UserActions }) => 
     <div className="flex flex-col mb-4">
       <h2 className="text-2xl font-bold text-stone-200">{content.title}</h2>
       <i className="text-stone-400 text-sm">{content.subtitle}</i>
-      {modalType == UserActions.APPLY_LEAVE && <DateRangeSelector />}
+      {modalType == UserActions.APPLY_LEAVE ? <DateRangeSelector />:<UnderDevelopment/>}
     </div>
   );
 };
