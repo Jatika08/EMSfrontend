@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { UserActions } from "../utils/enums";
 import {
   CalendarCheck,
@@ -10,6 +11,7 @@ import {
   ShieldCheck,
   FileBarChart2,
 } from "lucide-react";
+import { UserContext } from "../contexts/UserContextProvider";
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -21,24 +23,23 @@ function getGreeting() {
 }
 
 function DashboardHeader({
-  userName = "Employee",
-  isAdmin = true,
   setModalOpen,
   setModalType,
 }: {
   userName?: string;
   isAdmin?: boolean;
   setModalOpen: (open: boolean) => void;
-  setModalType: React.Dispatch<React.SetStateAction<UserActions>>
+  setModalType: React.Dispatch<React.SetStateAction<UserActions>>;
 }) {
   const greeting = getGreeting();
+  const { name, isSuperUser } = useContext(UserContext);
 
   return (
     <div className="w-full bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200">
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-400">
-            {greeting}, {userName} 👋
+            {greeting}, {name} 👋
           </h1>
           <p className="text-stone-400 text-sm mt-1">
             Here&apos;s what’s happening with your leaves today.
@@ -88,7 +89,7 @@ function DashboardHeader({
       </div>
 
       {/* Admin-only actions */}
-      {isAdmin && (
+      {isSuperUser && (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-6 pt-4 border-t border-stone-700/40">
           <QuickAction
             icon={<Users size={18} />}

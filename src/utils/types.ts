@@ -31,10 +31,19 @@ export type Employee = {
 export type UserContextType = {
   isLoggedIn: boolean;
   token: string | null;
+  email: string | null;
+  name: string | null;
+  
   userId: string | null;
   isSuperUser: boolean;
   currentUser: Employee | null;
-  login: (token: string, userId: string, isSuperUser: boolean) => void;
+  login: (
+    token: string,
+    userId: string,
+    email: string,
+    name: string,
+    isSuperUser: boolean
+  ) => void;
   logout: () => void;
   getUserData: () => void;
   getLocalItem: (key: string) => string | null;

@@ -6,13 +6,12 @@ import Home from "./pages/Home.jsx";
 import "./index.css";
 import { About } from "./pages/About.js";
 import { Admin } from "./pages/Admin.tsx";
-import { LoginPage } from "./pages/Login.tsx";
 import { UserContextProvider } from "./contexts/UserContextProvider.tsx";
 import ProtectedRoute from "./components/ProtectedRoutes.tsx";
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "./utils/queryClient.ts";
 import { ToastProvider } from "./contexts/CustomToast.tsx";
-import { RegisterPage } from "./pages/Register.tsx";
+import { AuthPage } from "./pages/auth.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -33,8 +32,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                 <Route path="admin" element={<Admin />} />
               </Route>
               <Route path="about" element={<About />} />
-              <Route path="login" element={<LoginPage />} />
-              <Route path="register" element={<RegisterPage />} />
+              <Route path="Auth" element={<AuthPage />} />
+              {/* <Route path="register" element={<RegisterPage />} /> */}
             </Routes>
           </BrowserRouter>
         </ToastProvider>

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, JSX } from "react";
+import React, { createContext, useState, JSX } from "react";
 import { UserContextType } from "@/utils/types";
 import axiosInstance from "../utils/axiosInstance";
 
@@ -27,6 +27,12 @@ export const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isSuperUser, setIsSuperUser] = useState<boolean>(
     localStorage.getItem("isSuperUser") === "true"
   );
+  const [email, setEmail] = useState<string | null>(
+    localStorage.getItem("email")
+  );
+  const [name, setName] = useState<string | null>(
+    localStorage.getItem("email")
+  );
   const [currentUser, setCurrentUser] = useState<any>(null);
 
   const isLoggedIn = !!token;
@@ -39,10 +45,33 @@ export const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({
     return localStorage.getItem(key);
   };
 
-  const login = (token: string, userId: string, isSuperUser: boolean) => {
+  const login = (
+    token: string,
+    userId: string,
+    email: string,
+    name: string,
+    isSuperUser: boolean
+  ) => {
+    console.log(
+      "Login function called with:",
+      "token:",
+      token,
+      "userId:",
+      userId,
+      "email:",
+      email,
+      "name:",
+      name,
+      "isSuperUser:",
+      isSuperUser
+    );
     setToken(token);
     setUserId(userId);
     setIsSuperUser(isSuperUser);
+    setEmail(email);
+    setName(name);
+    setLocalItem("name", name);
+    setLocalItem("email", email);
     setLocalItem("token", token);
     setLocalItem("userId", userId);
     setLocalItem("isSuperUser", isSuperUser.toString());
@@ -51,6 +80,7 @@ export const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const logout = () => {
     setToken(null);
     setUserId(null);
+    setEmail(null);
     setIsSuperUser(false);
     setCurrentUser(null);
     localStorage.clear();
@@ -66,12 +96,6 @@ export const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  useEffect(() => {
-    if (token) {
-      getUserData();
-    }
-  }, [token]);
-
   return (
     <UserContext.Provider
       value={{
@@ -80,7 +104,9 @@ export const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({
         userId,
         isSuperUser,
         currentUser,
+        email,
         login,
+        name,
         logout,
         getUserData,
         getLocalItem,

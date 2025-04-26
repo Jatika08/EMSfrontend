@@ -5,7 +5,11 @@ import { registerUser } from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContextProvider";
 
-export const RegisterPage = () => {
+interface AuthPageProps {
+  setRegistering: (value: boolean) => void;
+}
+
+export const RegisterPage = ({ setRegistering }: AuthPageProps) => {
   const [step, setStep] = useState<"verify" | "details">("verify");
   const [form, setForm] = useState({
     email: "",
@@ -26,7 +30,10 @@ export const RegisterPage = () => {
       navigate("/login");
     },
     onError: (err: any) => {
-      alert("Registration failed: " + err?.response?.data?.message || "Unknown error");
+      alert(
+        "Registration failed: " + err?.response?.data?.message ||
+          "Unknown error"
+      );
     },
   });
 
@@ -72,7 +79,10 @@ export const RegisterPage = () => {
           </p>
         </div>
 
-        <form onSubmit={step === "verify" ? handleVerify : handleRegister} className="flex flex-col gap-4">
+        <form
+          onSubmit={step === "verify" ? handleVerify : handleRegister}
+          className="flex flex-col gap-4"
+        >
           <div className="relative">
             <Mail className="absolute left-3 top-3 text-stone-500" size={18} />
             <input
@@ -102,7 +112,10 @@ export const RegisterPage = () => {
           {step === "details" && (
             <>
               <div className="relative">
-                <User className="absolute left-3 top-3 text-stone-500" size={18} />
+                <User
+                  className="absolute left-3 top-3 text-stone-500"
+                  size={18}
+                />
                 <input
                   type="text"
                   name="name"
@@ -115,7 +128,10 @@ export const RegisterPage = () => {
               </div>
 
               <div className="relative">
-                <Lock className="absolute left-3 top-3 text-stone-500" size={18} />
+                <Lock
+                  className="absolute left-3 top-3 text-stone-500"
+                  size={18}
+                />
                 <input
                   type="password"
                   name="password"
@@ -128,7 +144,10 @@ export const RegisterPage = () => {
               </div>
 
               <div className="relative">
-                <Lock className="absolute left-3 top-3 text-stone-500" size={18} />
+                <Lock
+                  className="absolute left-3 top-3 text-stone-500"
+                  size={18}
+                />
                 <input
                   type="password"
                   name="confirmPassword"
@@ -153,7 +172,7 @@ export const RegisterPage = () => {
         <div className="text-center text-sm text-stone-500">
           Already have an account?{" "}
           <a
-            href="/login"
+            onClick={() => setRegistering(false)}
             className="text-stone-300 underline cursor-pointer"
           >
             Sign In
