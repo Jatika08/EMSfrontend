@@ -11,7 +11,9 @@ import ProtectedRoute from "./components/ProtectedRoutes.tsx";
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "./utils/queryClient.ts";
 import { ToastProvider } from "./contexts/CustomToast.tsx";
-import { AuthPage } from "./pages/auth.tsx";
+import { AuthPage } from "./pages/Auth.tsx";
+import AdminRoute from "./components/AdminRoute.tsx";
+import { Me } from "./pages/Me.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -29,11 +31,26 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                     </ProtectedRoute>
                   }
                 />
-                <Route path="admin" element={<Admin />} />
+
+                <Route
+                  path="admin"
+                  element={
+                    <AdminRoute>
+                      <Admin />
+                    </AdminRoute>
+                  }
+                />
+                <Route
+                  path="me"
+                  element={
+                    <ProtectedRoute>
+                      <Me />
+                    </ProtectedRoute>
+                  }
+                />
               </Route>
               <Route path="about" element={<About />} />
               <Route path="Auth" element={<AuthPage />} />
-              {/* <Route path="register" element={<RegisterPage />} /> */}
             </Routes>
           </BrowserRouter>
         </ToastProvider>

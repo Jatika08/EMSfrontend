@@ -73,7 +73,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
         {/* Bottom Nav */}
         <div className="mt-6 pt-6 border-t border-stone-800/40">
-          <Link to="/profile">
+          <Link to="/me">
             <div
               className={`flex items-center gap-3 px-3 py-2 rounded-md transition-all hover:bg-stone-800/70 ${
                 pathname === "/profile" ? "bg-stone-800/80" : ""
