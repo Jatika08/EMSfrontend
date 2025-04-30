@@ -4,6 +4,8 @@ import LeavesCalender from "../components/LeavesCalender";
 import Contacts from "../components/Contacts";
 import ActionsModal from "../components/ActionsModal";
 import { useState } from "react";
+import { MyTeam } from "../components/MyTeam";
+import { Notices } from "../components/Notices";
 
 function Home() {
   const today = new Date();
@@ -13,7 +15,12 @@ function Home() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row pt-4 justify-center bg-stone-950 px-10 pl-20 gap-4">
       <div className="flex flex-col w-full gap-4">
-        <DashboardHeader userName="Utkarsh" setModalOpen={setModalOpen} setModalType={setModalType}/>
+        <DashboardHeader
+          userName="Utkarsh"
+          setModalOpen={setModalOpen}
+          setModalType={setModalType}
+        />
+
         <PendingApprovals
           approvals={[
             {
@@ -47,13 +54,19 @@ function Home() {
             // Add more to test scroll
           ]}
         />
+        <Notices />
+
         <Contacts />
       </div>
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full gap-4">
         <LeavesCalender month={today.getMonth()} year={today.getFullYear()} />
+        <MyTeam />
       </div>
-      <ActionsModal isOpen={isModalOpen} modalType={modalType} onClose={() => setModalOpen(false)}>
-      </ActionsModal>
+      <ActionsModal
+        isOpen={isModalOpen}
+        modalType={modalType}
+        onClose={() => setModalOpen(false)}
+      ></ActionsModal>
     </div>
   );
 }

@@ -11,6 +11,7 @@ import { useState } from "react";
 import EmployeeDetailsModal from "../components/EmployeeDetailsModal";
 import { AdminActions } from "../utils/enums";
 import { LeaveHeatMap } from "../components/LeaveHeatmap";
+import { LeavesChart } from "../components/LeavesChart";
 
 const employeeList = [
   { name: "Grant Douglas Ward", id: "hdsf-1234", department: "Field Agents" },
@@ -437,6 +438,7 @@ export const Admin = () => {
           </i>
         </EmployeeDetailsModal>
         <LeaveHeatMap />
+        <LeavesChart/>
         <div className="p-6 flex flex-col gap-5 bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl border border-stone-700/30 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] backdrop-blur-lg text-stone-300">
           {/* Title */}
           <div className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-300 tracking-wide">
