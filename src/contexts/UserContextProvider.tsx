@@ -31,7 +31,7 @@ export const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.getItem("email")
   );
   const [name, setName] = useState<string | null>(
-    localStorage.getItem("email")
+    localStorage.getItem("name")
   );
   const [currentUser, setCurrentUser] = useState<any>(null);
 

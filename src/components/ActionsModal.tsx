@@ -1,6 +1,7 @@
 // components/WindowModal.jsx
 
 import { UserActions } from "../utils/enums";
+import { AddEmployeePage } from "./AddEmployee";
 import { DateRangeSelector } from "./DateRangeSelector";
 import { UnderDevelopment } from "./subcomponents/UnderDevelopment";
 
@@ -61,16 +62,26 @@ const actionHeadings: Record<UserActions, { title: string; subtitle: string }> =
       title: "Employee Information",
       subtitle: "Browse or search employee records",
     },
+    [UserActions.ADD_EMPLOYEE]: {
+      title: "Add new employee",
+      subtitle: "Approve an employee so that they can register themselves.",
+    },
   };
 
-export const ActionModalHeader = ({ modalType }: { modalType: UserActions }) => {
+export const ActionModalHeader = ({
+  modalType,
+}: {
+  modalType: UserActions;
+}) => {
   const content = actionHeadings[modalType];
 
   return (
     <div className="flex flex-col mb-4">
       <h2 className="text-2xl font-bold text-stone-200">{content.title}</h2>
       <i className="text-stone-400 text-sm">{content.subtitle}</i>
-      {modalType == UserActions.APPLY_LEAVE ? <DateRangeSelector />:<UnderDevelopment/>}
+      {modalType == UserActions.APPLY_LEAVE && <DateRangeSelector />}
+      {modalType == UserActions.ADD_EMPLOYEE && <AddEmployeePage />}
+
     </div>
   );
 };

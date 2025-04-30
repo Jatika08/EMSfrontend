@@ -9,9 +9,10 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import EmployeeDetailsModal from "../components/EmployeeDetailsModal";
-import { AdminActions } from "../utils/enums";
+import { AdminActions, UserActions } from "../utils/enums";
 import { LeaveHeatMap } from "../components/LeaveHeatmap";
 import { LeavesChart } from "../components/LeavesChart";
+import ActionsModal from "../components/ActionsModal";
 
 const employeeList = [
   { name: "Grant Douglas Ward", id: "hdsf-1234", department: "Field Agents" },
@@ -288,12 +289,12 @@ export const Admin = () => {
   const [selectedActionType, setSelectedActionType] = useState(
     AdminActions.VIEW_EMPLOYEE
   );
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState(null);
 
   const filteredEmployees = employee.filter((e) =>
     e.name.toLowerCase().includes(searchValue.toLowerCase())
   );
-
-  console.log("Filtered Employees: ", filteredEmployees);
 
   return (
     <div className="flex h-full w-full gap-4 px-6 py-4 pl-20">
@@ -398,8 +399,10 @@ export const Admin = () => {
           <button
             className="p-1 rounded hover:text-white text-stone-400 transition-colors"
             onClick={() => {
-              setSelectedActionType(AdminActions.ADD_EMPLOYEE);
-              setIsOpen(true);
+              // setSelectedActionType(AdminActions.ADD_EMPLOYEE);
+              // setIsOpen(true);
+              setModalOpen(true)
+              setModalType(UserActions.ADD_EMPLOYEE)
             }}
           >
             <Plus size={18} />
@@ -431,14 +434,10 @@ export const Admin = () => {
           selectedAction={selectedActionType}
           employee={selectedEmployee!}
         >
-          <i className="text-xl font-bold w-full mb-4">
-            {selectedActionType === AdminActions.VIEW_EMPLOYEE
-              ? "Employee Details"
-              : "Employee management"}
-          </i>
+          <i className="text-xl font-bold w-full mb-4">Employee Details</i>
         </EmployeeDetailsModal>
         <LeaveHeatMap />
-        <LeavesChart/>
+        <LeavesChart />
         <div className="p-6 flex flex-col gap-5 bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl border border-stone-700/30 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] backdrop-blur-lg text-stone-300">
           {/* Title */}
           <div className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-300 tracking-wide">
@@ -460,6 +459,11 @@ export const Admin = () => {
           </div>
         </div>
       </div>
+      <ActionsModal
+        isOpen={isModalOpen}
+        modalType={modalType}
+        onClose={() => setModalOpen(false)}
+      ></ActionsModal>
     </div>
   );
 };
