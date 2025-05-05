@@ -11,7 +11,9 @@ function LeavesCalender({ month, year }: { month: number; year: number }) {
   if (isLeap) adjustedDaysInMonth[1] = 29;
 
   const day = firstDay.toLocaleString("en-US", { weekday: "short" });
-  const firstDayNumber = dayNames.indexOf(day) + 1;
+  const firstDayNumber = dayNames.indexOf(day);
+
+  console.log(dayNames.indexOf(day))
 
   let calendarBegin = 1;
   let previousMonthEnded = false;
@@ -56,7 +58,7 @@ function LeavesCalender({ month, year }: { month: number; year: number }) {
   });
 
   return (
-    <div className="bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] backdrop-blur-lg max-w-3xl w-full text-stone-300 h-200">
+    <div className="bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] backdrop-blur-lg w-full text-stone-300 h-200">
       {" "}
       <div className="text-center mb-6">
         <div className="flex flex-row gap-1 font-semibold">
@@ -85,14 +87,14 @@ function LeavesCalender({ month, year }: { month: number; year: number }) {
         {calendarDays.map((day, index) => (
           <div
             key={index}
-            className={`flex flex-col  text-sm transition-all p- h-32 ${
+            className={`flex flex-col  text-sm transition-all p- h-32 overflow-hidden ${
               day.isCurrentMonth
                 ? "bg-stone-700/40 text-stone-100 hover:bg-stone-600/50"
                 : "text-stone-500"
             }`}
           >
             {day.label}
-            <div>
+            <div className="">
               {day.isCurrentMonth && (
                 <div className=" w-full h-full mt-1 flex flex-col gap-1 overflow-y-hidden text-xs text-stone-300 ">
                   {segregatedLeaveData[day.label - 1].map((leaves) => (
@@ -123,7 +125,7 @@ function LeavesCalender({ month, year }: { month: number; year: number }) {
                     >
                       {/* {leaves?.user_email?.split("@")[0].replace(/\./g, " ")} */}
                       {(leaves?.isStart ||
-                        (day.label - 1 + (3 - firstDayNumber)) % 7 === 0) &&
+                        (day.label+firstDayNumber-1) % 7 === 0) &&
                         leaves.user_email?.split("@")[0].replace(/\./g, " ")}
                     </div>
                   ))}

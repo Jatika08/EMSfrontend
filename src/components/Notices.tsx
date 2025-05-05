@@ -1,8 +1,11 @@
 import { useContext, useState } from "react";
 import { ChevronDown, ChevronUp, Plus } from "lucide-react";
 import { UserContext } from "../contexts/UserContextProvider";
+import axiosInstance from "../utils/axiosInstance";
+import { useQuery } from "@tanstack/react-query";
+import { UserActions } from "../utils/enums";
 
-const notices = [
+const noticesx = [
   {
     header: "System Maintenance",
     date: "April 29, 2025",
@@ -25,9 +28,29 @@ const notices = [
   },
 ];
 
-export const Notices = () => {
+export const Notices = ({
+  setModalOpen,
+  setModalType,
+}: {
+  setModalOpen: (open: boolean) => void;
+  setModalType: React.Dispatch<React.SetStateAction<UserActions>>;
+}) => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const { isSuperUser } = useContext(UserContext);
+
+  const fetchNotices = async () => {
+    const response = await axiosInstance.get("/notices");
+    return response.data;
+  };
+
+  const {
+    data: notices,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["notices"],
+    queryFn: fetchNotices,
+  });
 
   const toggleNotice = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index);
@@ -39,10 +62,13 @@ export const Notices = () => {
         <h2 className="text-2xl mb-5 font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-400 tracking-wide">
           Leave Notices
         </h2>
-        {isSuperUser && (
+        {true && (
           <button
             className="p-1  hover:text-white text-stone-400 transition-colors bg-stone-800 rounded-md hover:bg-stone-600 w-8 h-8 flex items-center justify-center"
-            onClick={() => {}}
+            onClick={() => {
+              setModalOpen(true);
+              setModalType(UserActions.POST_NOTICE);
+            }}
           >
             <Plus size={18} />
           </button>
@@ -50,7 +76,7 @@ export const Notices = () => {
       </div>
 
       <div className="flex flex-col gap-4 h-80 overflow-y-auto scroll-smooth">
-        {notices.map((notice, idx) => (
+        {noticesx.map((notice, idx) => (
           <div
             key={idx}
             className="bg-stone-800/70 rounded-xl p-2 px-4 border border-stone-700/40 transition-all duration-300 ease-in-out hover:shadow-[0_0_10px_rgba(255,255,255,0.05)]"

@@ -24,18 +24,29 @@ export const RegisterPage = ({ setRegistering }: AuthPageProps) => {
   const { login } = useContext(UserContext);
 
   const registerMutation = useMutation({
-    mutationFn: registerUser,
+    mutationFn: registerUser, // The function that will handle the registration API call
+    onMutate: () => {
+      // You can show a loading spinner or something to indicate that the mutation is in progress
+    },
     onSuccess: (data) => {
+      // Successful registration logic
       alert("Registered successfully! Please login.");
       navigate("/login");
     },
-    onError: (err: any) => {
+    onError: (error: any) => {
+      // Handle the error case
       alert(
-        "Registration failed: " + err?.response?.data?.message ||
-          "Unknown error"
+        "Registration failed: " +
+          (error?.response?.data?.message || "Unknown error")
       );
     },
+    onSettled: (data, error) => {
+      // Optionally, you can perform some logic here after the mutation completes
+      // regardless of whether it succeeded or failed
+    },
   });
+
+  const { isLoading, data, error } = registerMutation;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -163,6 +174,7 @@ export const RegisterPage = ({ setRegistering }: AuthPageProps) => {
 
           <button
             type="submit"
+            disabled={isLoading}
             className="w-full py-2 rounded-lg bg-gradient-to-r from-stone-700 to-stone-600 text-white font-semibold text-sm hover:brightness-110 transition-all"
           >
             {step === "verify" ? "Enter Details" : "Register"}

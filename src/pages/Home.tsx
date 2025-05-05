@@ -44,17 +44,9 @@ function Home() {
               from: "2025-04-15",
               to: "2025-04-17",
             },
-            // {
-            //   name: "Rohan Verma",
-            //   designation: "Backend Developer",
-            //   type: "Leave",
-            //   from: "2025-04-15",
-            //   to: "2025-04-17",
-            // },
-            // Add more to test scroll
           ]}
         />
-        <Notices />
+        <Notices setModalOpen={setModalOpen} setModalType={setModalType} />
 
         <Contacts />
       </div>

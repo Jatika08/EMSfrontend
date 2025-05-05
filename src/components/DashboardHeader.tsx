@@ -23,8 +23,10 @@ function getGreeting() {
 }
 
 function DashboardHeader({
+  userName,
   setModalOpen,
   setModalType,
+  
 }: {
   userName?: string;
   isAdmin?: boolean;
@@ -39,7 +41,7 @@ function DashboardHeader({
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-400">
-            {greeting}, {name} 👋
+            {greeting}, {name || userName} 👋
           </h1>
           <p className="text-stone-400 text-sm mt-1">
             Here&apos;s what’s happening with your leaves today.

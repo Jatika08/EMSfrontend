@@ -7,6 +7,19 @@ import {
   getDay,
 } from "date-fns";
 
+const heatmapColors = [
+  "#0000FF", // Blue
+  "#3399FF", // Light Blue
+  "#66CCFF", // Sky Blue
+  "#66FFCC", // Aqua Green
+  "#66FF66", // Light Green
+  "#CCFF66", // Yellow-Green
+  "#FFFF66", // Light Yellow
+  "#FFCC33", // Orange
+  "#FF9933", // Orange-Red
+  "#FF0000", // Red
+];
+
 const HeatCalender = ({ date }) => {
   function getMonthDatesWithPadding(date: string): ({ date: string } | {})[] {
     const monthStart = startOfMonth(parseISO(date));
@@ -39,7 +52,7 @@ const HeatCalender = ({ date }) => {
 
   return (
     <div className="relative h-110 w-full">
-      <div className="absolute inset-0 z-0 blur-sm pointer-events-none">
+      <div className="absolute inset-0 z-0 blur-xl pointer-events-none">
         <div className="h-full w-full bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl border border-stone-700/30 p-6 shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] flex flex-col text-stone-300">
           <h3 className="text-xl h-10 font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-300 tracking-wide"></h3>
 
@@ -62,9 +75,14 @@ const HeatCalender = ({ date }) => {
                 style={
                   day.date
                     ? {
+                        // backgroundColor: `hsl(${
+                        //   400-(day.leaves / 20) * 360
+                        // }, 0, 40%)`,
                         backgroundColor: `hsl(0, 0%, ${
-                          20-(day.leaves / 20) * 20
+                          5+ (day.leaves / 15) * 30
                         }%)`,
+
+                        // backgroundColor: heatmapColors[Math.floor(day.leaves/2)],
                       }
                     : {}
                 }

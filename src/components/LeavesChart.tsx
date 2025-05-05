@@ -20,19 +20,19 @@ ChartJS.register(
 
 export const LeavesChart = () => {
   const data = {
-    labels: ["Week 1", "Week 2", "Week 3", "Week 4","","","",""],
+    labels: ["Week 1", "Week 2", "Week 3", "Week 4", "", "", "", ""],
     datasets: [
       {
         label: "Planned Leaves",
-        data: [2, 1, 3, 1,3,2,4,5],
+        data: [2, 1, 3, 1, 3, 2, 4, 5],
         borderColor: "#78716c",
         backgroundColor: "rgba(41, 37, 36, 0.2)",
         tension: 0.2,
         fill: true,
       },
       {
-        label: "Unplanned Leaves",
-        data: [0, 1, 1, 2,0,2,1,2],
+        label: "Casual Leaves",
+        data: [0, 1, 1, 2, 0, 2, 1, 2],
         borderColor: "#d6d3d1",
         backgroundColor: "rgba(214, 211, 209, 0.2)",
         tension: 0.2,
@@ -46,8 +46,17 @@ export const LeavesChart = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
+        position: "top",
+        align: "end",
         labels: {
           color: "white",
+          font: {
+            size: 12,
+            weight: "600",
+            family: "'ubuntu', sans-serif",
+          },
+          boxWidth: 12,
+          boxHeight: 12,
         },
       },
     },

@@ -3,6 +3,7 @@
 import { UserActions } from "../utils/enums";
 import { AddEmployeePage } from "./AddEmployee";
 import { DateRangeSelector } from "./DateRangeSelector";
+import { PostNotice } from "./PostNotice";
 import { UnderDevelopment } from "./subcomponents/UnderDevelopment";
 
 interface ActionsModalProps {
@@ -66,6 +67,10 @@ const actionHeadings: Record<UserActions, { title: string; subtitle: string }> =
       title: "Add new employee",
       subtitle: "Approve an employee so that they can register themselves.",
     },
+    [UserActions.POST_NOTICE]: {
+      title: "Post Notice",
+      subtitle: "Create notices to inform employees about events.",
+    },
   };
 
 export const ActionModalHeader = ({
@@ -75,13 +80,27 @@ export const ActionModalHeader = ({
 }) => {
   const content = actionHeadings[modalType];
 
+  let ContentComponent;
+
+  switch (modalType) {
+    case UserActions.APPLY_LEAVE:
+      ContentComponent = <DateRangeSelector />;
+      break;
+    case UserActions.ADD_EMPLOYEE:
+      ContentComponent = <AddEmployeePage />;
+      break;
+    case UserActions.POST_NOTICE:
+      ContentComponent = <PostNotice />;
+      break;
+    default:
+      ContentComponent = <UnderDevelopment />;
+  }
+
   return (
     <div className="flex flex-col mb-4">
       <h2 className="text-2xl font-bold text-stone-200">{content.title}</h2>
       <i className="text-stone-400 text-sm">{content.subtitle}</i>
-      {modalType == UserActions.APPLY_LEAVE && <DateRangeSelector />}
-      {modalType == UserActions.ADD_EMPLOYEE && <AddEmployeePage />}
-
+      {ContentComponent}
     </div>
   );
 };
