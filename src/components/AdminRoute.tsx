@@ -7,9 +7,9 @@ const AdminRoute: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const { isSuperUser } = useContext(UserContext);
 
-  // if (!isSuperUser) {
-  //   return <Navigate to="/home" replace />;
-  // }
+  if (!isSuperUser) {
+    return <Navigate to="/" replace />;
+  }
 
   return <>{children}</>;
 };

@@ -25,7 +25,7 @@ export const LoginPage = ({ setRegistering }: LoginPageProps) => {
       login(data.token, data.user.id, data.user.email, data.user.name, data.user.isSuperUser);
 
       // Navigate to dashboard
-      navigate("/dashboard");
+      navigate("/");
     },
     onError: (err: any) => {
       alert(
