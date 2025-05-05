@@ -26,7 +26,6 @@ function DashboardHeader({
   userName,
   setModalOpen,
   setModalType,
-  
 }: {
   userName?: string;
   isAdmin?: boolean;
@@ -86,7 +85,10 @@ function DashboardHeader({
         <QuickAction
           icon={<LogOut size={18} />}
           label="Logout"
-          onClick={() => setModalOpen(true)}
+          onClick={() => {
+            setModalOpen(true);
+            setModalType(UserActions.LOGOUT);
+          }}
         />
       </div>
 

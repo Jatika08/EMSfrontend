@@ -3,6 +3,7 @@
 import { UserActions } from "../utils/enums";
 import { AddEmployeePage } from "./AddEmployee";
 import { DateRangeSelector } from "./DateRangeSelector";
+import { LogoutConfirmation } from "./LogoutConfirmation";
 import { PostNotice } from "./PostNotice";
 import { UnderDevelopment } from "./subcomponents/UnderDevelopment";
 
@@ -37,7 +38,7 @@ const ActionsModal = ({ isOpen, onClose, modalType }: ActionsModalProps) => {
           ×
         </button>
 
-        <ActionModalHeader modalType={modalType} />
+        <ActionModalHeader modalType={modalType} onClose={onClose} />
       </div>
     </div>
   );
@@ -75,8 +76,10 @@ const actionHeadings: Record<UserActions, { title: string; subtitle: string }> =
 
 export const ActionModalHeader = ({
   modalType,
+  onClose,
 }: {
   modalType: UserActions;
+  onClose: () => void;
 }) => {
   const content = actionHeadings[modalType];
 
@@ -84,13 +87,16 @@ export const ActionModalHeader = ({
 
   switch (modalType) {
     case UserActions.APPLY_LEAVE:
-      ContentComponent = <DateRangeSelector />;
+      ContentComponent = <DateRangeSelector onClose={onClose} />;
       break;
     case UserActions.ADD_EMPLOYEE:
       ContentComponent = <AddEmployeePage />;
       break;
     case UserActions.POST_NOTICE:
-      ContentComponent = <PostNotice />;
+      ContentComponent = <PostNotice onClose={onClose} />;
+      break;
+    case UserActions.LOGOUT:
+      ContentComponent = <LogoutConfirmation onClose={onClose}/>;
       break;
     default:
       ContentComponent = <UnderDevelopment />;
@@ -98,8 +104,8 @@ export const ActionModalHeader = ({
 
   return (
     <div className="flex flex-col mb-4">
-      <h2 className="text-2xl font-bold text-stone-200">{content.title}</h2>
-      <i className="text-stone-400 text-sm">{content.subtitle}</i>
+      <h2 className="text-2xl font-bold text-stone-200">{content?.title}</h2>
+      <i className="text-stone-400 text-sm">{content?.subtitle}</i>
       {ContentComponent}
     </div>
   );

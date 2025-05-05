@@ -4,7 +4,15 @@ import { segregatedLeaveData } from "../hooks/useLeaves";
 const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-function LeavesCalender({ month, year }: { month: number; year: number }) {
+function LeavesCalender({
+  month,
+  year,
+  handleMonthChange,
+}: {
+  month: number;
+  year: number;
+  handleMonthChange: (val: number) => void;
+}) {
   const firstDay = new Date(year, month, 1);
   const isLeap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
   const adjustedDaysInMonth = [...daysInMonth];
@@ -13,7 +21,7 @@ function LeavesCalender({ month, year }: { month: number; year: number }) {
   const day = firstDay.toLocaleString("en-US", { weekday: "short" });
   const firstDayNumber = dayNames.indexOf(day);
 
-  console.log(dayNames.indexOf(day))
+  console.log(dayNames.indexOf(day));
 
   let calendarBegin = 1;
   let previousMonthEnded = false;
@@ -65,10 +73,16 @@ function LeavesCalender({ month, year }: { month: number; year: number }) {
           <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-300">
             {monthLabel}
           </h2>
-          <div className="ml-auto bg-stone-800 rounded-md hover:bg-stone-600 w-8 h-8 flex items-center justify-center">
+          <div
+            className="ml-auto bg-stone-800 rounded-md hover:bg-stone-600 w-8 h-8 flex items-center justify-center"
+            onClick={() => handleMonthChange(-1)}
+          >
             <ChevronLeft size={16} />
           </div>
-          <div className="bg-stone-800 rounded-md  hover:bg-stone-600 w-8 h-8 flex items-center justify-center">
+          <div
+            className="bg-stone-800 rounded-md  hover:bg-stone-600 w-8 h-8 flex items-center justify-center"
+            onClick={() => handleMonthChange(1)}
+          >
             <ChevronRight size={16} />
           </div>
           <div className="bg-stone-800 rounded-md  hover:bg-stone-600 w-8 h-8 flex items-center justify-center">
@@ -125,7 +139,7 @@ function LeavesCalender({ month, year }: { month: number; year: number }) {
                     >
                       {/* {leaves?.user_email?.split("@")[0].replace(/\./g, " ")} */}
                       {(leaves?.isStart ||
-                        (day.label+firstDayNumber-1) % 7 === 0) &&
+                        (day.label + firstDayNumber - 1) % 7 === 0) &&
                         leaves.user_email?.split("@")[0].replace(/\./g, " ")}
                     </div>
                   ))}

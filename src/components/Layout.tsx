@@ -7,8 +7,8 @@ interface LayoutProps {
 }
 
 const navItems = [
-  { label: "Home", icon: <Home size={18} />, path: "/dashboard" },
-  { label: "Leave Stats", icon: <BarChart2 size={18} />, path: "/stats" },
+  { label: "Home", icon: <Home size={18} />, path: "/" },
+  // { label: "Leave Stats", icon: <BarChart2 size={18} />, path: "/stats" },
   { label: "Admin Panel", icon: <Shield size={18} />, path: "/admin" },
 ];
 

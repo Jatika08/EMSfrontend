@@ -1,16 +1,60 @@
 import { useState } from "react";
 import { DateSelector } from "./subcomponents/DateSelector";
 import { CalendarRange, ClipboardEdit, Briefcase } from "lucide-react";
+import axiosInstance from "../utils/axiosInstance";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "../contexts/CustomToast";
 
-export const DateRangeSelector = () => {
+export const DateRangeSelector = ({ onClose }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [reason, setReason] = useState("");
   const [type, setType] = useState<"leave" | "wfh">("leave");
+  const showToast = useToast();
+
+  const submitLeaveRequest = async (data: {
+    startDate: Date;
+    endDate: Date;
+    reason: string;
+    type: "leave" | "wfh";
+  }) => {
+    const response = await axiosInstance.post("/leaves", {
+      startDate: data.startDate,
+      endDate: data.endDate,
+      reason: data.reason,
+      type: data.type,
+    });
+    return response.data;
+  };
+
+  const mutation = useMutation({
+    mutationFn: submitLeaveRequest,
+    onSuccess: (data) => {
+      console.log("Success:", data);
+      showToast(
+        `Leave request submitted successfully! from ${data.startDate} to ${data.endDate}`
+      );
+    },
+    onError: (error) => {
+      console.error("Error:", error);
+      showToast(`Leave request failed.`);
+    },
+    onSettled: () => {
+      setStartDate(new Date());
+      setEndDate(new Date());
+      setReason("");
+      setType("leave");
+      onClose();
+    },
+  });
 
   const handleSubmit = () => {
-    console.log("Submitting:", { startDate, endDate, reason, type });
-    // handle form submit logic
+    mutation.mutate({
+      startDate,
+      endDate,
+      reason,
+      type,
+    });
   };
 
   return (
@@ -19,7 +63,9 @@ export const DateRangeSelector = () => {
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-3 mb-2">
           <CalendarRange className="text-stone-400" size={20} />
-          <h2 className="text-lg font-semibold text-stone-300">Select Date Range</h2>
+          <h2 className="text-lg font-semibold text-stone-300">
+            Select Date Range
+          </h2>
         </div>
         <DateSelector
           startDate={startDate}
@@ -54,7 +100,9 @@ export const DateRangeSelector = () => {
                 onChange={() => setType(option as "leave" | "wfh")}
                 className="hidden"
               />
-              <span className="capitalize">{option === "leave" ? "Leave" : "Work From Home"}</span>
+              <span className="capitalize">
+                {option === "leave" ? "Leave" : "Work From Home"}
+              </span>
             </label>
           ))}
         </div>
@@ -78,10 +126,16 @@ export const DateRangeSelector = () => {
       {/* Submit Button */}
       <div className="pt-2">
         <button
+          disabled={mutation.isPending}
           onClick={handleSubmit}
-          className="w-fit px-6 py-3 rounded-3xl bg-gradient-to-br from-stone-700 to-stone-900 text-white font-semibold shadow-md hover:brightness-110 transition-all"
+          className={`w-fit px-6 py-3 rounded-3xl font-semibold shadow-md transition-all
+    ${
+      mutation.isPending
+        ? "bg-gray-500 text-white cursor-not-allowed opacity-70"
+        : "bg-gradient-to-br from-stone-700 to-stone-900 text-white hover:brightness-110"
+    }`}
         >
-          Submit Request
+          {mutation.isPending ? "Submitting..." : "Submit Request"}
         </button>
       </div>
     </div>

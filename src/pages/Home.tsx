@@ -1,14 +1,13 @@
 import DashboardHeader from "../components/DashboardHeader";
 import PendingApprovals from "../components/PendingApprovals";
-import LeavesCalender from "../components/LeavesCalender";
 import Contacts from "../components/Contacts";
 import ActionsModal from "../components/ActionsModal";
 import { useState } from "react";
 import { MyTeam } from "../components/MyTeam";
 import { Notices } from "../components/Notices";
+import { LeavesCalenderHolder } from "../components/LeavesCalenderHolder";
 
 function Home() {
-  const today = new Date();
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
 
@@ -51,7 +50,7 @@ function Home() {
         <Contacts />
       </div>
       <div className="flex flex-col w-full gap-4">
-        <LeavesCalender month={today.getMonth()} year={today.getFullYear()} />
+        <LeavesCalenderHolder />
         <MyTeam />
       </div>
       <ActionsModal

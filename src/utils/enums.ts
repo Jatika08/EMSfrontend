@@ -8,7 +8,8 @@ export enum UserActions {
   LEAVE_BALANCE = "leave_balance",
   VIEW_EMPLOYEE = "view_employee",
   ADD_EMPLOYEE = "add_employee",
-  POST_NOTICE ="post_notice"
+  POST_NOTICE ="post_notice",
+  LOGOUT = "logout",
 }
 export const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 

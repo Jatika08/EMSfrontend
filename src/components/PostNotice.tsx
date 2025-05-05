@@ -1,12 +1,38 @@
 import { useState } from "react";
 import { ClipboardSignature, FileText } from "lucide-react";
+import axiosInstance from "../utils/axiosInstance";
+import { useToast } from "../contexts/CustomToast";
+import { useMutation } from "@tanstack/react-query";
 
-export const PostNotice = () => {
+export const PostNotice = ({ onClose }) => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const showToast = useToast();
+
+  const addNotice = async (data) => {
+    const response = await axiosInstance.post("/notices", data);
+    return response.data;
+  };
+
+  const noticeMutation = useMutation({
+    mutationFn: addNotice,
+    onSuccess: (data) => {
+      showToast("Notice was posted successfully");
+      console.log("Response:", data);
+    },
+    onError: (error) => {
+      showToast("Failed to post Notice.");
+      console.error("Error adding employee:", error);
+    },
+    onSettled: () => {
+      onClose();
+    },
+  });
 
   const handleSubmit = () => {
-    console.log("Posting Notice:", { title, text });
+    const data = { title, text };
+    console.log("Posting Notice:", data);
+    noticeMutation.mutate(data);
   };
 
   return (

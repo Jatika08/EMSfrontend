@@ -11,7 +11,7 @@ const teamMembers = [
 
 export const MyTeam = () => {
   return (
-    <div className="bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_12px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200 max-w-193">
+    <div className="bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_12px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200 ">
       <h2 className="text-2xl font-bold  bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-400 tracking-wide">
         My Team
       </h2>

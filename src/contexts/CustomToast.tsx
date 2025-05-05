@@ -38,9 +38,9 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
               <Info size={16} className="text-amber-500 mt-0.5" />
               <span>{toast.message}</span>
             </div>
-            <span className="text-xs text-stone-400 font-normal px-6">
+            {/* <span className="text-xs text-stone-400 font-normal px-6">
               Success.
-            </span>
+            </span> */}
           </div>
         ))}
       </div>
