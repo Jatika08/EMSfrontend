@@ -41,17 +41,23 @@ const Contacts: React.FC = () => {
         {contactsData.map((contact, index) => (
           <div
             key={index}
-            className="flex items-center justify-between p-2 px-4 bg-stone-700/40 rounded-lg hover:bg-stone-700/50 transition duration-300"
+            className="flex items-center justify-between p-2 px-4 bg-stone-800/70 rounded-lg hover:bg-stone-700/70 hover:shadow-mdp transition duration-300"
           >
             <div>
               <p className="font-semibold text-stone-100">{contact.name}</p>
               <p className="text-sm text-stone-400">{contact.role}</p>
             </div>
             <div className="flex gap-3 items-center">
-              <a href={`tel:${contact.phone}`} className="text-stone-300 hover:text-stone-100">
+              <a
+                href={`tel:${contact.phone}`}
+                className="text-stone-300 hover:text-stone-100"
+              >
                 <Phone size={18} />
               </a>
-              <a href={`mailto:${contact.email}`} className="text-stone-300 hover:text-stone-100">
+              <a
+                href={`mailto:${contact.email}`}
+                className="text-stone-300 hover:text-stone-100"
+              >
                 <Mail size={18} />
               </a>
             </div>

@@ -23,7 +23,7 @@ export const MyTeam = () => {
         {teamMembers.map((member, idx) => (
           <div
             key={idx}
-            className="flex flex-row gap-2 items-center p-2 px-4 bg-stone-800/70 border border-stone-700/40 rounded-2xl  hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,255,255,0.05)] transition-all duration-300 ease-in-out"
+            className="flex flex-row gap-2 items-center p-2 px-4 bg-stone-800/70  rounded-xl hover:bg-stone-700/70 hover:shadow-md transition-all duration-300 ease-in-out"
           >
             <div className="relative mb-2">
               <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gradient-to-br from-stone-700 to-stone-900 text-white border-2 border-stone-600 shadow-inner">

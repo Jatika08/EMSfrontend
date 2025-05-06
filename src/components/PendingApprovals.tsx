@@ -1,3 +1,5 @@
+import axiosInstance from "../utils/axiosInstance";
+import { useQuery } from "@tanstack/react-query";
 import { Check, X } from "lucide-react";
 interface LeaveRequest {
   name: string;
@@ -7,10 +9,47 @@ interface LeaveRequest {
   to: string;
 }
 
-function PendingApprovals({ approvals = [] }: { approvals: LeaveRequest[] }) {
+const approvals = [
+  {
+    name: "Aditi Sharma",
+    designation: "UI Designer",
+    applyDate: "2025-04-14",
+    type: "WFH",
+    from: "2025-04-12",
+    to: "2025-04-14",
+  },
+  {
+    name: "Rohan Verma",
+    designation: "Backend Developer",
+    type: "Leave",
+    applyDate: "2025-04-14",
+    from: "2025-04-15",
+    to: "2025-04-17",
+  },
+  {
+    name: "Rohan Verma",
+    designation: "Backend Developer",
+    applyDate: "2025-04-14",
+    type: "Leave",
+    from: "2025-04-15",
+    to: "2025-04-17",
+  },
+];
+
+function PendingApprovals() {
+  const fetchLeaveApprovals = async () => {
+    const response = await axiosInstance.get("/api/leave-approvals");
+    return response.data;
+  };
+
+  const { data: approvalss } = useQuery({
+    queryKey: ["leaveApprovals"],
+    queryFn: fetchLeaveApprovals,
+  });
+
   return (
     <div className="bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200 max-h-full overflow-y-auto w-full">
-      <h2 className="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-400">
+      <h2 className="text-2xl mb-5 font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-400 tracking-wide">
         Pending Approvals
       </h2>
 

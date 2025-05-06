@@ -20,31 +20,7 @@ function Home() {
           setModalType={setModalType}
         />
 
-        <PendingApprovals
-          approvals={[
-            {
-              name: "Aditi Sharma",
-              designation: "UI Designer",
-              type: "WFH",
-              from: "2025-04-12",
-              to: "2025-04-14",
-            },
-            {
-              name: "Rohan Verma",
-              designation: "Backend Developer",
-              type: "Leave",
-              from: "2025-04-15",
-              to: "2025-04-17",
-            },
-            {
-              name: "Rohan Verma",
-              designation: "Backend Developer",
-              type: "Leave",
-              from: "2025-04-15",
-              to: "2025-04-17",
-            },
-          ]}
-        />
+        <PendingApprovals />
         <Notices setModalOpen={setModalOpen} setModalType={setModalType} />
 
         <Contacts />

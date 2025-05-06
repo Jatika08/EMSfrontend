@@ -7,9 +7,9 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const { token } = useContext(UserContext);
 
-  if (!token) {
-    return <Navigate to="/auth" replace />;
-  }
+  // if (!token) {
+  //   return <Navigate to="/auth" replace />;
+  // }
 
   return <>{children}</>;
 };
