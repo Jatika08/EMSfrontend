@@ -79,7 +79,7 @@ export const Notices = ({
         {noticesx.map((notice, idx) => (
           <div
             key={idx}
-            className="bg-stone-800/70 rounded-xl p-2 px-4 transition-all duration-300 ease-in-out hover:bg-stone-700/70 hover:shadow-mdp"
+            className="bg-stone-800/70 rounded-xl p-2 px-4 transition-all duration-300 ease-in-out hover:bg-stone-700/70 hover:shadow-md"
           >
             <div
               className="flex items-center justify-between cursor-pointer"

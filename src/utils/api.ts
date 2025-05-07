@@ -10,6 +10,6 @@ export const registerUser = async (data: {
   email: string;
   password: string;
 }) => {
-  const response = await axiosInstance.post("/auth/register", data);
+  const response = await axiosInstance.patch("/users/register", data);
   return response.data;
 };

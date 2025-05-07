@@ -41,7 +41,7 @@ const Contacts: React.FC = () => {
         {contactsData.map((contact, index) => (
           <div
             key={index}
-            className="flex items-center justify-between p-2 px-4 bg-stone-800/70 rounded-lg hover:bg-stone-700/70 hover:shadow-mdp transition duration-300"
+            className="flex items-center justify-between p-2 px-4 bg-stone-800/70 rounded-lg hover:bg-stone-700/70 hover:shadow-md transition duration-300"
           >
             <div>
               <p className="font-semibold text-stone-100">{contact.name}</p>

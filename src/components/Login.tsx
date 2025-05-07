@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Lock, Mail } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { loginUser } from "../utils/api";
@@ -15,14 +15,20 @@ export const LoginPage = ({ setRegistering }: LoginPageProps) => {
     password: "",
   });
   const navigate = useNavigate();
-  const { login } = useContext(UserContext);
+  const { login, logout } = useContext(UserContext);
 
   const loginMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
       // Save to localStorage
 
-      login(data.token, data.user.id, data.user.email, data.user.name, data.user.isSuperUser);
+      login(
+        data.token,
+        data.user.id,
+        data.user.email,
+        data.user.name,
+        data.user.isSuperUser
+      );
 
       // Navigate to dashboard
       navigate("/");
@@ -46,6 +52,10 @@ export const LoginPage = ({ setRegistering }: LoginPageProps) => {
     });
   };
 
+  useEffect(() => {
+    logout();
+  }, []);
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-950 to-stone-900 flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-stone-900/70 border border-stone-700/30 backdrop-blur-md shadow-[inset_0_0_30px_rgba(0,0,0,0.4)] rounded-3xl p-8 flex flex-col gap-6 text-stone-200">

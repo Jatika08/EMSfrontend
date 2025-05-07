@@ -24,25 +24,21 @@ export const RegisterPage = ({ setRegistering }: AuthPageProps) => {
   const { login } = useContext(UserContext);
 
   const registerMutation = useMutation({
-    mutationFn: registerUser, // The function that will handle the registration API call
+    mutationFn: registerUser,
     onMutate: () => {
-      // You can show a loading spinner or something to indicate that the mutation is in progress
     },
     onSuccess: (data) => {
-      // Successful registration logic
       alert("Registered successfully! Please login.");
       navigate("/login");
     },
     onError: (error: any) => {
-      // Handle the error case
       alert(
         "Registration failed: " +
           (error?.response?.data?.message || "Unknown error")
       );
     },
     onSettled: (data, error) => {
-      // Optionally, you can perform some logic here after the mutation completes
-      // regardless of whether it succeeded or failed
+ 
     },
   });
 
@@ -54,7 +50,6 @@ export const RegisterPage = ({ setRegistering }: AuthPageProps) => {
 
   const handleVerify = (e: React.FormEvent) => {
     e.preventDefault();
-    // Normally here you'd call an OTP verification API
     if (form.otp.length === 6) {
       setStep("details");
     } else {

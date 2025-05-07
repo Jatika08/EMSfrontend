@@ -25,11 +25,12 @@ export const AddEmployeePage = () => {
   const showToast = useToast();
 
   const addEmployee = async (data: EmployeeFormData) => {
-    const response = await axiosInstance.post("/actions", data);
+    const response = await axiosInstance.post("/action", data);
     return response.data;
   };
 
   const mutation = useMutation({
+    
     mutationFn: addEmployee,
     onSuccess: (data) => {
       showToast("Employee added successfully!");
@@ -99,12 +100,12 @@ export const AddEmployeePage = () => {
               />
               <input
                 type="date"
-                {...register("dob")}
+                {...register("date_of_birth")}
                 className="w-full pl-12 pr-4 py-3 rounded-xl bg-stone-800/60 border border-stone-700 text-base text-stone-200 focus:outline-none focus:ring-2 focus:ring-stone-600"
               />
-              {errors.dob && (
+              {errors.date_of_birth && (
                 <p className="text-red-400 text-sm mt-1 ml-1">
-                  {errors.dob.message}
+                  {errors.date_of_birth.message}
                 </p>
               )}
             </div>
@@ -129,7 +130,7 @@ export const AddEmployeePage = () => {
             <p className="text-lg font-medium text-stone-300">
               OTP:{" "}
               <span className="font-mono tracking-widest">
-                {showOtp ? mutation?.data?.otp : "******"}
+                {showOtp ? mutation?.data?.temporary_token : "******"}
               </span>
             </p>
             <div className="flex justify-center gap-4">
