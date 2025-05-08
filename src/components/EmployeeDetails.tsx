@@ -40,17 +40,17 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
           <StatCard
             icon={<Clock size={20} />}
             label="Total Leaves"
-            value={employee.leaves.total}
+            value={employee?.leaves?.total}
           />
           <StatCard
             icon={<CalendarCheck size={20} />}
             label="Used Leaves"
-            value={employee.leaves.used}
+            value={employee?.leaves?.used}
           />
           <StatCard
             icon={<Clock size={20} />}
             label="Remaining"
-            value={employee.leaves.remaining}
+            value={employee?.leaves?.remaining}
           />
           <button className="flex items-center gap-2 px-3 py-2 mt-2 bg-stone-700/60 hover:bg-stone-600/70 text-sm text-stone-300 rounded-xl transition-all">
             <Pencil size={16} className="text-stone-400" />

@@ -90,13 +90,13 @@ export const ActionModalHeader = ({
       ContentComponent = <DateRangeSelector onClose={onClose} />;
       break;
     case UserActions.ADD_EMPLOYEE:
-      ContentComponent = <AddEmployeePage />;
+      ContentComponent = <AddEmployeePage onClose={onClose} />;
       break;
     case UserActions.POST_NOTICE:
       ContentComponent = <PostNotice onClose={onClose} />;
       break;
     case UserActions.LOGOUT:
-      ContentComponent = <LogoutConfirmation onClose={onClose}/>;
+      ContentComponent = <LogoutConfirmation onClose={onClose} />;
       break;
     default:
       ContentComponent = <UnderDevelopment />;

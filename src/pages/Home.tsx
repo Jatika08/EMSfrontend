@@ -19,7 +19,7 @@ function Home() {
       <WelcomeModal />
       <div className="flex flex-col w-full gap-4">
         <DashboardHeader
-          userName="Utkarsh"
+          userName="username"
           setModalOpen={setModalOpen}
           setModalType={setModalType}
         />

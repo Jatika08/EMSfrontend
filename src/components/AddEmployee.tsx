@@ -9,8 +9,9 @@ import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "../utils/axiosInstance";
 import { useToast } from "../contexts/CustomToast";
 import { useState } from "react";
+import queryClient from "../utils/queryClient";
 
-export const AddEmployeePage = () => {
+export const AddEmployeePage = ({ onClose }: { onClose: () => void }) => {
   const {
     register,
     handleSubmit,
@@ -30,13 +31,13 @@ export const AddEmployeePage = () => {
   };
 
   const mutation = useMutation({
-    
     mutationFn: addEmployee,
     onSuccess: (data) => {
       showToast("Employee added successfully!");
       console.log("Response:", data);
       setShowOtpBox(true);
       setShowOtp(false);
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
     onError: (error) => {
       showToast("Failed to add employee");
@@ -143,6 +144,7 @@ export const AddEmployeePage = () => {
               <button
                 onClick={() => {
                   setShowOtpBox(false);
+                  onClose()
                   reset();
                 }}
                 className="rounded-xl p-2 bg-stone-800/60 border border-stone-700 text-base text-stone-200 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-600"

@@ -13,6 +13,7 @@ import { AdminActions, UserActions } from "../utils/enums";
 import { LeaveHeatMap } from "../components/LeaveHeatmap";
 import { LeavesChart } from "../components/LeavesChart";
 import ActionsModal from "../components/ActionsModal";
+import { useEmployeesQuery } from "../hooks/useEmployees";
 
 const employeeList = [
   { name: "Grant Douglas Ward", id: "hdsf-1234", department: "Field Agents" },
@@ -280,9 +281,7 @@ const employee = [
 
 export const Admin = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedEmployee, setSelectedEmployee] = useState<
-    (typeof employee)[0] | null
-  >(employee[0]);
+  const [selectedEmployee, setSelectedEmployee] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchValue, setSearchValue] = useState("");
@@ -292,10 +291,14 @@ export const Admin = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
 
-  const filteredEmployees = employee.filter((e) =>
-    e.name.toLowerCase().includes(searchValue.toLowerCase())
-  );
+  const { EmployeesData, EmployeeLeavesData, isFetching } =
+    useEmployeesQuery(selectedEmployee);
 
+  console.log(selectedEmployee);
+
+  const filteredEmployees = EmployeesData?.users?.filter((e) =>
+    e?.name?.toLowerCase()?.includes(searchValue.toLowerCase())
+  );
   return (
     <div className="flex h-full w-full gap-4 px-6 py-4 pl-20">
       {/* Sidebar */}
@@ -365,12 +368,13 @@ export const Admin = () => {
 
             {/* Search Results */}
             <div className="flex flex-col gap-2 overflow-y-auto">
-              {filteredEmployees.map(({ name, id }) => (
+              {filteredEmployees.map(({ name, id, email }) => (
                 <button
                   key={id}
                   onClick={() => {
                     setSelectedEmployee(
-                      employee.find((e) => e.id === id) || null
+                      EmployeesData?.users?.find((e) => e?.email === email) ||
+                        null
                     );
                     setSelectedActionType(AdminActions.VIEW_EMPLOYEE);
                     setIsOpen(true);
@@ -401,26 +405,42 @@ export const Admin = () => {
             onClick={() => {
               // setSelectedActionType(AdminActions.ADD_EMPLOYEE);
               // setIsOpen(true);
-              setModalOpen(true)
-              setModalType(UserActions.ADD_EMPLOYEE)
+              setModalOpen(true);
+              setModalType(UserActions.ADD_EMPLOYEE);
             }}
           >
             <Plus size={18} />
           </button>
         </div>
         <div className="flex flex-col gap-2">
-          {employeeList.map(({ name, id }) => (
+          {EmployeesData?.users?.map((emp) => (
             <button
-              key={id}
+              key={emp.id}
               onClick={() => {
-                setSelectedEmployee(employee.find((e) => e.id === id) || null);
+                setSelectedEmployee(
+                  EmployeesData.users.find((e) => e.id === emp.id) || null
+                );
                 setSelectedActionType(AdminActions.VIEW_EMPLOYEE);
-
                 setIsOpen(true);
               }}
-              className="px-4 py-2 rounded-lg bg-stone-800/70 hover:bg-stone-700/70 text-left text-sm text-stone-300 transition-all"
+              className="group w-full text-left p-4 rounded-xl bg-gradient-to-br from-stone-800/70 to-stone-900/70 border border-stone-700/40 shadow-[inset_0_0_10px_rgba(0,0,0,0.5)] hover:shadow-[0_0_12px_rgba(255,255,255,0.05)] hover:border-stone-600/50 transition-all duration-200"
             >
-              {name}
+              <div className="flex flex-col">
+                <div className="text-stone-200 text-sm font-medium group-hover:text-white transition">
+                  {emp.name}
+                  {emp.is_super_user && (
+                    <span className="text-xs text-orange-400 ml-2 font-normal">
+                      (Admin)
+                    </span>
+                  )}
+                  {emp.temporary_token && (
+                    <span className="text-xs text-orange-400 ml-2 font-normal">
+                      (Unregistered)
+                    </span>
+                  )}
+                </div>
+                <div className="text-xs text-stone-400">{emp.email}</div>
+              </div>
             </button>
           ))}
         </div>
