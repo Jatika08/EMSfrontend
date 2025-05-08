@@ -33,7 +33,7 @@ export type UserContextType = {
   token: string | null;
   email: string | null;
   name: string | null;
-  
+
   userId: string | null;
   isSuperUser: boolean;
   currentUser: Employee | null;
@@ -48,4 +48,24 @@ export type UserContextType = {
   getUserData: () => void;
   getLocalItem: (key: string) => string | null;
   setLocalItem: (key: string, value: string) => void;
+};
+
+export type LeaveWfh = {
+  id: string;
+  user_email: string;
+  start_date: string;
+  end_date: string;
+  leave_apply_date: string;
+  is_approved: boolean;
+  reason: string;
+  isCl?: boolean;
+  isWfh?: boolean;
+  source: string;
+};
+
+export type LeaveFilters = {
+  fromMonth: number;
+  fromYear: number;
+  toMonth: number;
+  toYear: number;
 };

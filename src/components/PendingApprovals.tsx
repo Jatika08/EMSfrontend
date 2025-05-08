@@ -3,13 +3,7 @@ import axiosInstance from "../utils/axiosInstance";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Check, X } from "lucide-react";
 import { useToast } from "../contexts/CustomToast";
-interface LeaveRequest {
-  name: string;
-  designation: string;
-  type: "WFH" | "Leave";
-  from: string;
-  to: string;
-}
+
 
 const formatDate = (isoDate: string) => {
   const date = new Date(isoDate);
@@ -58,6 +52,8 @@ function PendingApprovals() {
     onSuccess: () => {
       showToast("Leave Approved.");
       queryClient.invalidateQueries({ queryKey: ["leaveApprovals"] });
+      queryClient.invalidateQueries({ queryKey: ["leaves"] });
+
     },
 
     onError: (error) => {
@@ -71,11 +67,11 @@ function PendingApprovals() {
         Pending Approvals
       </h2>
 
-      {approvalss?.length === 0 ? (
+      {!approvalss?.length ? (
         <p className="text-stone-400 text-sm">No pending requests 🎉</p>
       ) : (
         <div className="flex flex-col gap-4">
-          <div className="h-100 flex flex-col gap-2 overflow-scroll">
+          <div className=" max-h-100 flex flex-col gap-2 overflow-y-scroll">
             {approvalss?.map((item, idx) => (
               <div
                 key={idx}

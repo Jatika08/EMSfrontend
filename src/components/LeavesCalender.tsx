@@ -1,5 +1,4 @@
 import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
-import { segregatedLeaveData } from "../hooks/useLeaves";
 
 const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -8,10 +7,14 @@ function LeavesCalender({
   month,
   year,
   handleMonthChange,
+  isFetching,
+  segregatedLeaves,
 }: {
   month: number;
   year: number;
   handleMonthChange: (val: number) => void;
+  isFetching: boolean;
+  segregatedLeaves: any;
 }) {
   const firstDay = new Date(year, month, 1);
   const isLeap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
@@ -26,6 +29,7 @@ function LeavesCalender({
   let calendarBegin = 1;
   let previousMonthEnded = false;
   let daysInPreviousMonth = 0;
+  const segregatedLeaveData = new Array(42).fill(0).map(() => []);
 
   if (firstDay.getDay() !== 1) {
     daysInPreviousMonth = adjustedDaysInMonth[(month - 1 + 12) % 12];
@@ -37,7 +41,7 @@ function LeavesCalender({
   let newMonthBegins = false;
   const calendarDays = [];
 
-  for (let i = 0; i < 35; i++) {
+  for (let i = 0; i < 42; i++) {
     calendarDays.push({
       label: calendarBegin,
       isCurrentMonth: previousMonthEnded && !newMonthBegins,
@@ -65,8 +69,10 @@ function LeavesCalender({
     year: "numeric",
   });
 
+  // console.log(segregatedLeaves);
+
   return (
-    <div className="bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] backdrop-blur-lg w-full text-stone-300 h-200">
+    <div className="bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] backdrop-blur-lg w-full text-stone-300 h-230">
       {" "}
       <div className="text-center mb-6">
         <div className="flex flex-row gap-1 font-semibold">
@@ -111,7 +117,7 @@ function LeavesCalender({
             <div className="">
               {day.isCurrentMonth && (
                 <div className=" w-full h-full mt-1 flex flex-col gap-1 overflow-y-hidden text-xs text-stone-300 ">
-                  {segregatedLeaveData[day.label - 1].map((leaves) => (
+                  {segregatedLeaves[day.label - 1].map((leaves) => (
                     <div
                       className={`
                       h-5   px-1 items-center 
@@ -121,7 +127,7 @@ function LeavesCalender({
                           : ""
                       }
                                             ${
-                                              leaves?.user_email
+                                              leaves?.email
                                                 ? "border-t-[2px] border-b-[2px] border-stone-300/20"
                                                 : ""
                                             }
@@ -140,7 +146,7 @@ function LeavesCalender({
                       {/* {leaves?.user_email?.split("@")[0].replace(/\./g, " ")} */}
                       {(leaves?.isStart ||
                         (day.label + firstDayNumber - 1) % 7 === 0) &&
-                        leaves.user_email?.split("@")[0].replace(/\./g, " ")}
+                        leaves.email?.split("@")[0].replace(/\./g, " ")}
                     </div>
                   ))}
                 </div>
