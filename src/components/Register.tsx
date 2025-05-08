@@ -13,8 +13,10 @@ export const RegisterPage = ({ setRegistering }: AuthPageProps) => {
   const [step, setStep] = useState<"verify" | "details">("verify");
   const [form, setForm] = useState({
     email: "",
-    otp: "",
+    temporary_token: "",
     name: "",
+    department: "",
+    date_of_birth: "",
     password: "",
     confirmPassword: "",
   });
@@ -25,8 +27,7 @@ export const RegisterPage = ({ setRegistering }: AuthPageProps) => {
 
   const registerMutation = useMutation({
     mutationFn: registerUser,
-    onMutate: () => {
-    },
+    onMutate: () => {},
     onSuccess: (data) => {
       alert("Registered successfully! Please login.");
       navigate("/login");
@@ -37,9 +38,7 @@ export const RegisterPage = ({ setRegistering }: AuthPageProps) => {
           (error?.response?.data?.message || "Unknown error")
       );
     },
-    onSettled: (data, error) => {
- 
-    },
+    onSettled: (data, error) => {},
   });
 
   const { isLoading, data, error } = registerMutation;
@@ -50,7 +49,7 @@ export const RegisterPage = ({ setRegistering }: AuthPageProps) => {
 
   const handleVerify = (e: React.FormEvent) => {
     e.preventDefault();
-    if (form.otp.length === 6) {
+    if (form.temporary_token.length === 6) {
       setStep("details");
     } else {
       alert("Please enter a valid 6-digit OTP.");
@@ -68,6 +67,9 @@ export const RegisterPage = ({ setRegistering }: AuthPageProps) => {
       email: form.email,
       password: form.password,
       name: form.name,
+      department: form.department,
+      date_of_birth: form.date_of_birth,
+      temporary_token: form.temporary_token,
     });
   };
 
@@ -106,9 +108,9 @@ export const RegisterPage = ({ setRegistering }: AuthPageProps) => {
             <Lock className="absolute left-3 top-3 text-stone-500" size={18} />
             <input
               type="text"
-              name="otp"
+              name="temporary_token"
               placeholder="One Time Password"
-              value={form.otp}
+              value={form.temporary_token}
               onChange={handleChange}
               required
               className="w-full pl-10 pr-4 py-2 rounded-lg bg-stone-800/60 border border-stone-700 text-sm placeholder-stone-500 focus:ring-2 focus:ring-stone-600"
@@ -127,6 +129,36 @@ export const RegisterPage = ({ setRegistering }: AuthPageProps) => {
                   name="name"
                   placeholder="Full Name"
                   value={form.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full pl-10 pr-4 py-2 rounded-lg bg-stone-800/60 border border-stone-700 text-sm placeholder-stone-500 focus:ring-2 focus:ring-stone-600"
+                />
+              </div>
+              <div className="relative">
+                <User
+                  className="absolute left-3 top-3 text-stone-500"
+                  size={18}
+                />
+                <input
+                  type="text"
+                  name="department"
+                  placeholder="Department"
+                  value={form.department}
+                  onChange={handleChange}
+                  required
+                  className="w-full pl-10 pr-4 py-2 rounded-lg bg-stone-800/60 border border-stone-700 text-sm placeholder-stone-500 focus:ring-2 focus:ring-stone-600"
+                />
+              </div>
+              <div className="relative">
+                <User
+                  className="absolute left-3 top-3 text-stone-500"
+                  size={18}
+                />
+                <input
+                  type="date"
+                  name="date_of_birth"
+                  placeholder="Date of Birth"
+                  value={form.date_of_birth}
                   onChange={handleChange}
                   required
                   className="w-full pl-10 pr-4 py-2 rounded-lg bg-stone-800/60 border border-stone-700 text-sm placeholder-stone-500 focus:ring-2 focus:ring-stone-600"
