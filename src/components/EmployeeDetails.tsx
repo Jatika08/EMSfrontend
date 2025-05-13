@@ -17,6 +17,7 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
   return (
     <div className="w-full h-full rounded-3xl  border border-stone-700/30 text-stone-200 py-4">
       {/* Header */}
+      
       <div className="px-6 font-semibold">Employee details</div>
       <div className="flex flex-row gap-6 p-6">
         <LanyardGenerator selectedEmployee={employee} />
@@ -30,7 +31,7 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
           <StatCard
             icon={<Fingerprint size={20} />}
             label="Employee ID"
-            value={"hdsf-1234"}
+            value={employee.id}
           />
           <StatCard
             icon={<AtSign size={20} />}
@@ -62,7 +63,7 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
       {/* Leave Summary */}
 
       <div className="flex flex-col gap-3 px-6">
-        {employee.leaveDetails.map((leave) => {
+        {employee?.leaveDetails?.map((leave) => {
           const start = new Date(leave.start_date);
           const end = new Date(leave.end_date);
           const totalDays =

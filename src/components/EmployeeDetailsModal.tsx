@@ -32,7 +32,7 @@ type Employee = {
 interface ActionsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  employee: Employee;
+  employee: any;
   children: React.ReactNode;
   selectedAction: AdminActions;
 }
@@ -41,10 +41,11 @@ const EmployeeDetailsModal = ({
   isOpen,
   onClose,
   employee,
-  children,
   selectedAction,
 }: ActionsModalProps) => {
   if (!isOpen) return null;
+
+  console.log("employee id", employee);
 
   return (
     <div onClick={onClose} className="w-full backdrop-blur-sm">
@@ -61,7 +62,7 @@ const EmployeeDetailsModal = ({
         {selectedAction === AdminActions.VIEW_EMPLOYEE && (
           <EmployeeDetails employee={employee} />
         )}
-        {selectedAction === AdminActions.ADD_EMPLOYEE && <AddEmployeePage />}
+        {selectedAction === AdminActions.ADD_EMPLOYEE && <AddEmployeePage onClose={onClose} />}
         {/* <div className="h-128"></div> */}
       </div>
     </div>

@@ -423,7 +423,7 @@ export const Admin = () => {
                 setSelectedActionType(AdminActions.VIEW_EMPLOYEE);
                 setIsOpen(true);
               }}
-              className="group w-full text-left p-4 rounded-xl bg-gradient-to-br from-stone-800/70 to-stone-900/70 border border-stone-700/40 shadow-[inset_0_0_10px_rgba(0,0,0,0.5)] hover:shadow-[0_0_12px_rgba(255,255,255,0.05)] hover:border-stone-600/50 transition-all duration-200"
+              className="group w-full text-left p-4 rounded-xl bg-gradient-to-br from-stone-800/70 to-stone-900/70 border border-stone-700/40  hover:shadow-[0_0_12px_rgba(255,255,255,0.05)] hover:border-stone-600/50 transition-all duration-200"
             >
               <div className="flex flex-col">
                 <div className="text-stone-200 text-sm font-medium group-hover:text-white transition">
