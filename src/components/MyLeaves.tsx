@@ -3,32 +3,80 @@ import { formatDate } from "./PendingApprovals";
 import axiosInstance from "../utils/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { LeaveWfh } from "@/utils/types";
-import { useContext } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import { UserContext } from "../contexts/UserContextProvider";
+import { date } from "zod";
 
-export default function MyLeaves() {
+export default function MyLeaves({
+  isHistory = false,
+}: {
+  isHistory?: boolean;
+}) {
   const { email } = useContext(UserContext);
+
+  const leavesFunction = useCallback(async () => {
+    const today = new Date();
+
+    let fromMonth, fromYear, toMonth, toYear;
+
+    if (isHistory) {
+      fromMonth = 1;
+      fromYear = 2000;
+
+      toMonth = today.getMonth() + 1;
+      toYear = today.getFullYear();
+
+      if (toMonth === 0) {
+        toMonth = 12;
+        toYear -= 1;
+      }
+    } else {
+      toMonth = 1;
+      toYear = 2099;
+
+      if (toMonth === 0) {
+        toMonth = 12;
+        toYear -= 1;
+      }
+
+      fromMonth = today.getMonth() + 1;
+      fromYear = today.getFullYear();
+    }
+
+    const res = await axiosInstance.get(
+      `/leaves?email=${encodeURIComponent(
+        email ?? ""
+      )}&fromMonth=${fromMonth}&fromYear=${fromYear}&toMonth=${toMonth}&toYear=${toYear}`
+    );
+
+    return res.data;
+  }, [isHistory, email]);
 
   const myLeavesQuery = useQuery({
     queryKey: ["myLeaves"],
-    queryFn: async () => {
-      const today = new Date();
-      let lastMonth = today.getMonth() + 1;
-      let thisYear = today.getFullYear();
-
-      if (lastMonth === 0) {
-        lastMonth = 12;
-        thisYear -= 1;
-      }
-      const res = await axiosInstance.get(
-        `/leaves?email=${encodeURIComponent(
-          email ?? ""
-        )}&fromMonth=${lastMonth}&fromYear=${thisYear}&toMonth=1&toYear=2099`
-      );
-      return res.data;
-    },
+    queryFn: leavesFunction,
     enabled: true,
   });
+
+  const sortedLeaves = useMemo(
+    () =>
+      myLeavesQuery?.data
+        ?.filter(
+          (leave) =>
+            leave.end_date &&
+            (isHistory
+              ? new Date(leave.end_date).getTime() <= Date.now()
+              : new Date(leave.end_date).getTime() >= Date.now())
+        )
+        .sort((a: LeaveWfh, b: LeaveWfh) => {
+          const dateA = new Date(a.start_date ?? 0).getTime();
+          const dateB = new Date(b.start_date ?? 0).getTime();
+          return isHistory ? dateB - dateA : dateA - dateB;
+        }),
+    [isHistory, myLeavesQuery?.data]
+  );
+
+  console.log("Sorted Leaves: ", sortedLeaves);
 
   if (myLeavesQuery.isLoading) {
     return (
@@ -46,6 +94,8 @@ export default function MyLeaves() {
     );
   }
 
+  console.log("My Leaves Data: ", myLeavesQuery?.data);
+
   return (
     <div className="h-xl rounded-3xl bg-gradient-to-br from-stone-950 to-stone-900 p-6 overflow-y-scroll shadow-[inset_0_0_30px_rgba(0,0,0,0.3)]">
       {myLeavesQuery?.data?.leaves?.length === 0 ? (
@@ -54,7 +104,7 @@ export default function MyLeaves() {
         </p>
       ) : (
         <div className="flex h-150 flex-col gap-6  mx-auto p-6">
-          {myLeavesQuery?.data?.map((leave: LeaveWfh) => {
+          {sortedLeaves?.map((leave: LeaveWfh) => {
             const status = leave.is_approved
               ? "Approved"
               : leave.issettled

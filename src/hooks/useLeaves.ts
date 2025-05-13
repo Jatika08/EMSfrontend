@@ -4,7 +4,7 @@ import { LeaveWfh, LeaveFilters } from "../utils/types";
 import { useQuery } from "@tanstack/react-query";
 
 async function fetchLeaves(filters: LeaveFilters): Promise<LeaveWfh[]> {
-  const res = await axiosInstance.get("/leaves", { params: filters });
+  const res = await axiosInstance.get("/leaves?isApproved=true", { params: filters });
   return res.data;
 }
 

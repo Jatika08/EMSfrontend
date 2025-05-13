@@ -76,6 +76,10 @@ const actionHeadings: Record<UserActions, { title: string; subtitle: string }> =
       title: "Upcoming Leaves",
       subtitle: "View your leave upcoming leaves",
     },
+    [UserActions.MY_LEAVES_HISTORY]: {
+      title: "Leave History",
+      subtitle: "View your leave history",
+    },
     [UserActions.LOGOUT]: {
       title: "",
       subtitle: "",
@@ -107,7 +111,10 @@ export const ActionModalHeader = ({
       ContentComponent = <LogoutConfirmation onClose={onClose} />;
       break;
     case UserActions.MY_LEAVES:
-      ContentComponent = <MyLeavesPage onClose={onClose} />;
+      ContentComponent = <MyLeavesPage/>;
+      break;
+    case UserActions.MY_LEAVES_HISTORY:
+      ContentComponent = <MyLeavesPage isHistory/>;
       break;
 
     default:

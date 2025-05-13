@@ -82,7 +82,7 @@ function DashboardHeader({
           label="History"
           onClick={() => {
             setModalOpen(true);
-            setModalType(UserActions.VIEW_EMPLOYEE);
+            setModalType(UserActions.MY_LEAVES_HISTORY);
           }}
         />
 
