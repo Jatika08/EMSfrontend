@@ -4,7 +4,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Check, X } from "lucide-react";
 import { useToast } from "../contexts/CustomToast";
 
-
 const formatDate = (isoDate: string) => {
   const date = new Date(isoDate);
   const options: Intl.DateTimeFormatOptions = {
@@ -49,14 +48,17 @@ function PendingApprovals() {
     mutationFn: ({ leaveId, action }: { leaveId: string; action: boolean }) =>
       LeaveAction(leaveId, action),
 
-    onSuccess: () => {
-      showToast("Leave Approved.");
+    onSuccess: (_data, variables) => {
+      if (variables.action) {
+        showToast("Leave Approved successfully.");
+      } else {
+        showToast("Leave Rejected successfully.");
+      }
       queryClient.invalidateQueries({ queryKey: ["leaveApprovals"] });
       queryClient.invalidateQueries({ queryKey: ["leaves"] });
-
     },
 
-    onError: (error) => {
+    onError: () => {
       showToast("Failed to update leave status. Try again.");
     },
   });
@@ -71,7 +73,7 @@ function PendingApprovals() {
         <p className="text-stone-400 text-sm">No pending requests 🎉</p>
       ) : (
         <div className="flex flex-col gap-4">
-          <div className=" max-h-100 flex flex-col gap-2 overflow-y-scroll">
+          <div className="max-h-100 flex flex-col gap-2 overflow-y-scroll">
             {approvalss?.map((item, idx) => (
               <div
                 key={idx}
@@ -80,17 +82,15 @@ function PendingApprovals() {
                 <div className="flex flex-col">
                   <span className="text-base font-medium text-stone-100">
                     {item?.email} <i>(userrole)</i>{" "}
-                    <i className=" text-xs text-stone-400">
-                      ({calculateDayDifference(item.start_date, item.end_date)}{" "}
-                      days)
+                    <i className="text-xs text-stone-400">
+                      ({calculateDayDifference(item.start_date, item.end_date)} days)
                     </i>
                   </span>
                   <span className="text-base font-medium text-stone-100">
                     Reason: {item.reason}
                   </span>
                   <span className="text-stone-400 text-sm mt-1">
-                    {item.iscl ? <>Casual Leave</> : <>Planned Leave</>} from{" "}
-                    {formatDate(item.start_date)} to {formatDate(item.end_date)}
+                    {item.iscl ? <>Casual Leave</> : <>Planned Leave</>} from {formatDate(item.start_date)} to {formatDate(item.end_date)}
                   </span>
                 </div>
                 <div className="flex gap-2 mt-2 sm:mt-0">

@@ -14,6 +14,7 @@ import { ToastProvider } from "./contexts/CustomToast.tsx";
 import { AuthPage } from "./pages/Auth.tsx";
 import AdminRoute from "./components/AdminRoute.tsx";
 import { Me } from "./pages/Me.tsx";
+import MyLeavesPage from "./pages/myleaves"; // ✅ adjust if your folder name is different
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -46,7 +47,16 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                       <Me />
                     </ProtectedRoute>
                   }
-                />
+                  />
+                <Route
+                  path="myleaves"
+                  element={
+                  <ProtectedRoute>
+                  <MyLeavesPage />
+                  </ProtectedRoute>
+                 }
+/>
+                
               </Route>
               <Route path="about" element={<About />} />
               <Route path="Auth" element={<AuthPage />} />

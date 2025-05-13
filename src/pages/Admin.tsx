@@ -484,6 +484,6 @@ export const Admin = () => {
         modalType={modalType}
         onClose={() => setModalOpen(false)}
       ></ActionsModal>
-    </div>
-  );
+    </div>
+  );
 };
