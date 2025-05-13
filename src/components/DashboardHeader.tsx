@@ -12,7 +12,6 @@ import {
   FileBarChart2,
 } from "lucide-react";
 import { UserContext } from "../contexts/UserContextProvider";
-import { useNavigate } from "react-router-dom"; // ✅ Correct now
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -35,7 +34,6 @@ function DashboardHeader({
 }) {
   const greeting = getGreeting();
   const { name, isSuperUser } = useContext(UserContext);
-  const navigate = useNavigate(); // ✅ react-router-dom navigation
 
   return (
     <div className="w-full bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200">
@@ -63,9 +61,10 @@ function DashboardHeader({
 
         <QuickAction
           icon={<CalendarCheck size={18} />}
-          label="My Leaves"
+          label="My Upcoming Leaves"
           onClick={() => {
-            navigate("/myleaves"); // ✅ Proper navigation now
+            setModalOpen(true);
+            setModalType(UserActions.MY_LEAVES);
           }}
         />
 

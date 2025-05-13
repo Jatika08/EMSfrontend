@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Check, X } from "lucide-react";
 import { useToast } from "../contexts/CustomToast";
 
-const formatDate = (isoDate: string) => {
+export const formatDate = (isoDate: string) => {
   const date = new Date(isoDate);
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",

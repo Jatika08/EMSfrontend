@@ -52,6 +52,8 @@ export type UserContextType = {
 
 export type LeaveWfh = {
   id: string;
+  isApproved: boolean;
+  isSettled: boolean;
   user_email: string;
   start_date: string;
   end_date: string;
@@ -59,6 +61,9 @@ export type LeaveWfh = {
   is_approved: boolean;
   reason: string;
   isCl?: boolean;
+  iscl?: boolean;
+  fromDate?: string;
+  toDate?: string;
   isWfh?: boolean;
   source: string;
 };

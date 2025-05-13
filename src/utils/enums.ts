@@ -10,6 +10,7 @@ export enum UserActions {
   ADD_EMPLOYEE = "add_employee",
   POST_NOTICE ="post_notice",
   LOGOUT = "logout",
+  MY_LEAVES = "my_leaves",
 }
 export const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 

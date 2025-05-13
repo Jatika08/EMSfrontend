@@ -1,5 +1,5 @@
-// components/WindowModal.jsx
-
+// components/WindowModal.
+import MyLeavesPage from "./MyLeaves";
 import { UserActions } from "../utils/enums";
 import { AddEmployeePage } from "./AddEmployee";
 import { DateRangeSelector } from "./DateRangeSelector";
@@ -72,6 +72,14 @@ const actionHeadings: Record<UserActions, { title: string; subtitle: string }> =
       title: "Post Notice",
       subtitle: "Create notices to inform employees about events.",
     },
+    [UserActions.MY_LEAVES]: {
+      title: "Upcoming Leaves",
+      subtitle: "View your leave upcoming leaves",
+    },
+    [UserActions.LOGOUT]: {
+      title: "",
+      subtitle: "",
+    },
   };
 
 export const ActionModalHeader = ({
@@ -98,6 +106,10 @@ export const ActionModalHeader = ({
     case UserActions.LOGOUT:
       ContentComponent = <LogoutConfirmation onClose={onClose} />;
       break;
+    case UserActions.MY_LEAVES:
+      ContentComponent = <MyLeavesPage onClose={onClose} />;
+      break;
+
     default:
       ContentComponent = <UnderDevelopment />;
   }
@@ -105,7 +117,7 @@ export const ActionModalHeader = ({
   return (
     <div className="flex flex-col mb-4">
       <h2 className="text-2xl font-bold text-stone-200">{content?.title}</h2>
-      <i className="text-stone-400 text-sm">{content?.subtitle}</i>
+      <i className="text-stone-400 text-sm mb-2">{content?.subtitle}</i>
       {ContentComponent}
     </div>
   );
