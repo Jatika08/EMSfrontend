@@ -12,6 +12,7 @@ export enum UserActions {
   LOGOUT = "logout",
   MY_LEAVES = "my_leaves",
   MY_LEAVES_HISTORY = "my_leaves_history",
+  LEAVES_BALANCE = "leaves_balance",
 }
 export const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 

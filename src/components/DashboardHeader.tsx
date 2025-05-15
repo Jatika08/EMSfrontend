@@ -73,7 +73,7 @@ function DashboardHeader({
           label="Leave Balance"
           onClick={() => {
             setModalOpen(true);
-            setModalType(UserActions.LEAVE_BALANCE);
+            setModalType(UserActions.LEAVES_BALANCE);
           }}
         />
 

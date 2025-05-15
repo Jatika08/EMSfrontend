@@ -6,6 +6,7 @@ import { DateRangeSelector } from "./DateRangeSelector";
 import { LogoutConfirmation } from "./LogoutConfirmation";
 import { PostNotice } from "./PostNotice";
 import { UnderDevelopment } from "./subcomponents/UnderDevelopment";
+import LeavesBalance from "./LeavesBalance";
 
 interface ActionsModalProps {
   isOpen: boolean;
@@ -56,7 +57,7 @@ const actionHeadings: Record<UserActions, { title: string; subtitle: string }> =
       title: "Your Leave History",
       subtitle: "View your previous leave applications",
     },
-    [UserActions.LEAVE_BALANCE]: {
+    [UserActions.LEAVES_BALANCE]: {
       title: "Leave Balance",
       subtitle: "See how many leave days you have left",
     },
@@ -80,6 +81,7 @@ const actionHeadings: Record<UserActions, { title: string; subtitle: string }> =
       title: "Leave History",
       subtitle: "View your leave history",
     },
+    
     [UserActions.LOGOUT]: {
       title: "",
       subtitle: "",
@@ -111,10 +113,13 @@ export const ActionModalHeader = ({
       ContentComponent = <LogoutConfirmation onClose={onClose} />;
       break;
     case UserActions.MY_LEAVES:
-      ContentComponent = <MyLeavesPage/>;
+      ContentComponent = <MyLeavesPage />;
       break;
     case UserActions.MY_LEAVES_HISTORY:
-      ContentComponent = <MyLeavesPage isHistory/>;
+      ContentComponent = <MyLeavesPage isHistory />;
+      break;
+    case UserActions.LEAVES_BALANCE:
+      ContentComponent = <LeavesBalance />;
       break;
 
     default:
