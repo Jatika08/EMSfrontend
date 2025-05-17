@@ -416,6 +416,7 @@ export const Admin = () => {
           {EmployeesData?.users?.map((emp) => (
             <button
               key={emp.id}
+              // disabled={emp?.isactive == false}
               onClick={() => {
                 setSelectedEmployee(
                   EmployeesData.users.find((e) => e.id === emp.id) || null
@@ -445,7 +446,6 @@ export const Admin = () => {
           ))}
         </div>
       </div>
-
       {/* <div className="flex-1 bg-gradient-to-br from-stone-950/80 to-stone-900/80 rounded-3xl border border-stone-700/30 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200 overflow-y-scroll"> */}
       <div className="flex w-full flex-col gap-4 ">
         <EmployeeDetailsModal
@@ -458,32 +458,35 @@ export const Admin = () => {
         </EmployeeDetailsModal>
         <LeaveHeatMap />
         <LeavesChart />
-        {false&&<div className="p-6 flex flex-col gap-5 bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl border border-stone-700/30 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] backdrop-blur-lg text-stone-300">
-          {/* Title */}
-          <div className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-300 tracking-wide">
-            Employee Management
+        {false && (
+          <div className="p-6 flex flex-col gap-5 bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl border border-stone-700/30 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] backdrop-blur-lg text-stone-300">
+            {/* Title */}
+            <div className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-300 tracking-wide">
+              Employee Management
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-stone-800/70 hover:bg-stone-700/70 transition-colors text-sm font-medium text-stone-300 shadow-inner backdrop-blur-sm">
+                <UserPlus size={16} className="text-stone-400" />
+                Add Employee
+              </button>
+              <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-stone-800/70 hover:bg-stone-700/70 transition-colors text-sm font-medium text-stone-300 shadow-inner backdrop-blur-sm">
+                <FileText size={16} className="text-stone-400" />
+                View All Records
+              </button>
+              <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-stone-800/70 hover:bg-stone-700/70 transition-colors text-sm font-medium text-stone-300 shadow-inner backdrop-blur-sm">
+                <ShieldCheck size={16} className="text-stone-400" />
+                Assign Roles
+              </button>
+            </div>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-stone-800/70 hover:bg-stone-700/70 transition-colors text-sm font-medium text-stone-300 shadow-inner backdrop-blur-sm">
-              <UserPlus size={16} className="text-stone-400" />
-              Add Employee
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-stone-800/70 hover:bg-stone-700/70 transition-colors text-sm font-medium text-stone-300 shadow-inner backdrop-blur-sm">
-              <FileText size={16} className="text-stone-400" />
-              View All Records
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-stone-800/70 hover:bg-stone-700/70 transition-colors text-sm font-medium text-stone-300 shadow-inner backdrop-blur-sm">
-              <ShieldCheck size={16} className="text-stone-400" />
-              Assign Roles
-            </button>
-          </div>
-        </div>}
+        )}
       </div>
       <ActionsModal
         isOpen={isModalOpen}
         modalType={modalType}
         onClose={() => setModalOpen(false)}
       ></ActionsModal>
-    </div>
-  );
+        
+    </div>
+  );
 };

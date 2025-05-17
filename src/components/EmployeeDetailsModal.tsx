@@ -55,7 +55,7 @@ const EmployeeDetailsModal = ({
       >
         <button
           onClick={onClose}
-          className="absolute top-3 right-4 text-stone-400 hover:text-red-400 text-2xl transition-colors"
+          className="absolute z-1000 top-3 right-4 text-stone-400 hover:text-red-400 text-2xl transition-colors"
         >
           ×
         </button>
