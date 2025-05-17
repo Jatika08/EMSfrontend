@@ -13,7 +13,6 @@ export default function LeavesBalance() {
     return { month: now.getMonth(), year: now.getFullYear() };
   });
 
-  // Dynamically determine month input
   const monthForQuery = viewType === "month" ? date.month : null;
   const { balance, isLoading, isError } = useLeaveBalance({
     month: monthForQuery,
@@ -58,7 +57,13 @@ export default function LeavesBalance() {
         <h3 className="text-stone-400 mb-2">Casual Leave (CL)</h3>
         <p>Allocated: {balance?.clAllocated ?? 0}</p>
         <p>Taken: {balance?.cl ?? 0}</p>
-        <p className="font-semibold text-green-400">
+        <p
+          className={`font-semibold ${
+            (balance?.clAllocated ?? 0) - (balance?.cl ?? 0) < 0
+              ? "text-red-400"
+              : "text-green-400"
+          }`}
+        >
           Remaining: {(balance?.clAllocated ?? 0) - (balance?.cl ?? 0)}
         </p>
       </div>
@@ -67,7 +72,13 @@ export default function LeavesBalance() {
         <h3 className="text-stone-400 mb-2">Planned Leave (PL)</h3>
         <p>Allocated: {balance?.plAllocated ?? 0}</p>
         <p>Taken: {balance?.pl ?? 0}</p>
-        <p className="font-semibold text-green-400">
+        <p
+          className={`font-semibold ${
+            (balance?.plAllocated ?? 0) - (balance?.pl ?? 0) < 0
+              ? "text-red-400"
+              : "text-green-400"
+          }`}
+        >
           Remaining: {(balance?.plAllocated ?? 0) - (balance?.pl ?? 0)}
         </p>
       </div>

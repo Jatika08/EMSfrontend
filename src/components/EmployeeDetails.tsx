@@ -117,20 +117,20 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
       </div>
 
       <div className="flex gap-2 px-6 pt-4 ">
-        <button className="flex items-center gap-2 px-4 py-2 bg-stone-800/70 hover:bg-stone-700/70 rounded-lg text-sm text-stone-200 transition-all">
+        {/* <button className="flex items-center gap-2 px-4 py-2 bg-stone-800/70 hover:bg-stone-700/70 rounded-lg text-sm text-stone-200 transition-all">
           <Trash2 size={16} className="text-stone-400" />
           Delete Record
-        </button>
+        </button> */}
 
         <button className="flex items-center gap-2 px-4 py-2 bg-stone-800/70 hover:bg-stone-700/70 rounded-lg text-sm text-stone-200 transition-all">
           <Ban size={16} className="text-stone-400" />
           Disable Account
         </button>
 
-        <button className="flex items-center gap-2 px-4 py-2 bg-stone-800/70 hover:bg-stone-700/70 rounded-lg text-sm text-stone-200 transition-all">
+        {/* <button className="flex items-center gap-2 px-4 py-2 bg-stone-800/70 hover:bg-stone-700/70 rounded-lg text-sm text-stone-200 transition-all">
           <UserCog size={16} className="text-stone-400" />
           Change Role
-        </button>
+        </button> */}
       </div>
     </div>
   );

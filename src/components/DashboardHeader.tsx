@@ -97,7 +97,7 @@ function DashboardHeader({
       </div>
 
       {/* Admin-only actions */}
-      {isSuperUser && (
+      {false && (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-6 pt-4 border-t border-stone-700/40">
           <QuickAction
             icon={<Users size={18} />}
