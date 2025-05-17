@@ -18,7 +18,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
   const showToast = (message: string) => {
     const id = Date.now();
     setToasts((prevToasts) => [...prevToasts, { id, message }]);
-    setTimeout(() => removeToast(id), 3000); // Show for 3 seconds
+    setTimeout(() => removeToast(id), 5000);
   };
 
   const removeToast = (id: number) => {
