@@ -458,7 +458,7 @@ export const Admin = () => {
         </EmployeeDetailsModal>
         <LeaveHeatMap />
         <LeavesChart />
-        <div className="p-6 flex flex-col gap-5 bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl border border-stone-700/30 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] backdrop-blur-lg text-stone-300">
+        {false&&<div className="p-6 flex flex-col gap-5 bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl border border-stone-700/30 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] backdrop-blur-lg text-stone-300">
           {/* Title */}
           <div className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-300 tracking-wide">
             Employee Management
@@ -477,7 +477,7 @@ export const Admin = () => {
               Assign Roles
             </button>
           </div>
-        </div>
+        </div>}
       </div>
       <ActionsModal
         isOpen={isModalOpen}

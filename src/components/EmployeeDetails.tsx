@@ -11,13 +11,39 @@ import {
 } from "lucide-react";
 import { LanyardGenerator } from "./LanyardGenerator";
 import { Employee } from "@/utils/types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axiosInstance from "../utils/axiosInstance";
+import { useToast } from "../contexts/CustomToast";
+
+const addEmployee = async (email: string) => {
+  const response = await axiosInstance.delete(`/action/${email}`);
+  return response.data;
+};
 
 export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
+  const queryClient = useQueryClient();
+    const showToast = useToast();
+  
+
+  const disableEmployeeMutation = useMutation({
+    mutationFn: addEmployee,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["employees"] });
+    },
+    onError: (error) => {
+      showToast("Failed to disable employee.");
+      
+      console.error("Failed to disable employee:", error);
+    },
+  });
+
+
+
   if (!employee) return null;
   return (
     <div className="w-full h-full rounded-3xl  border border-stone-700/30 text-stone-200 py-4">
       {/* Header */}
-      
+
       <div className="px-6 font-semibold">Employee details</div>
       <div className="flex flex-row gap-6 p-6">
         <LanyardGenerator selectedEmployee={employee} />
@@ -117,20 +143,23 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
       </div>
 
       <div className="flex gap-2 px-6 pt-4 ">
-        <button className="flex items-center gap-2 px-4 py-2 bg-stone-800/70 hover:bg-stone-700/70 rounded-lg text-sm text-stone-200 transition-all">
+        {/* <button className="flex items-center gap-2 px-4 py-2 bg-stone-800/70 hover:bg-stone-700/70 rounded-lg text-sm text-stone-200 transition-all">
           <Trash2 size={16} className="text-stone-400" />
           Delete Record
-        </button>
+        </button> */}
 
-        <button className="flex items-center gap-2 px-4 py-2 bg-stone-800/70 hover:bg-stone-700/70 rounded-lg text-sm text-stone-200 transition-all">
+        <button
+          className="flex items-center gap-2 px-4 py-2 bg-stone-800/70 hover:bg-stone-700/70 rounded-lg text-sm text-stone-200 transition-all"
+          onClick={() => disableEmployeeMutation.mutate(employee.email)}
+        >
           <Ban size={16} className="text-stone-400" />
           Disable Account
         </button>
 
-        <button className="flex items-center gap-2 px-4 py-2 bg-stone-800/70 hover:bg-stone-700/70 rounded-lg text-sm text-stone-200 transition-all">
+        {/* <button className="flex items-center gap-2 px-4 py-2 bg-stone-800/70 hover:bg-stone-700/70 rounded-lg text-sm text-stone-200 transition-all">
           <UserCog size={16} className="text-stone-400" />
           Change Role
-        </button>
+        </button> */}
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ export function SegregateLeaves(month: number, year: number, data: LeaveWfh[]) {
     }
 
     let position = 0;
-    while (days[start][position] !== undefined) {
+    while (days?.[start]?.[position] !== undefined) {
       position++;
     }
 
