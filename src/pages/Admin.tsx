@@ -15,6 +15,7 @@ import { LeavesChart } from "../components/LeavesChart";
 import ActionsModal from "../components/ActionsModal";
 import { useEmployeesQuery } from "../hooks/useEmployees";
 import { useSearchParams } from "react-router-dom";
+import queryClient from "../utils/queryClient";
 
 const employeeList = [
   { name: "Grant Douglas Ward", id: "hdsf-1234", department: "Field Agents" },
@@ -421,6 +422,8 @@ export const Admin = () => {
                   EmployeesData.users.find((e) => e.id === emp.id) || null
                 );
                 setSearchParams({ employeeId: emp.id });
+                queryClient.invalidateQueries({ queryKey: ["leaves"] });
+
                 setSelectedActionType(AdminActions.VIEW_EMPLOYEE);
                 setIsOpen(true);
               }}

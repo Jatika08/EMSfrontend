@@ -68,6 +68,7 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
       queryClient.invalidateQueries({
         queryKey: ["user", selectedEmployee],
       });
+      
     },
     onError: (error) => {
       showToast("Failed to disable employee.");
@@ -86,6 +87,7 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
             <button
               className="px-4 py-1 text-white font-semibold bg-stone-700 hover:bg-stone-900 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-stone-500 focus:ring-opacity-50 transition-all"
               onClick={() =>
+                
                 disableEmployeeMutation.mutate({
                   email: employeeData?.data?.email,
                   isActive: employeeData?.data?.isactive,

@@ -5,24 +5,19 @@ import { useQuery } from "@tanstack/react-query";
 
 async function fetchLeaves(filters: LeaveFilters): Promise<LeaveWfh[]> {
   const res = await axiosInstance.get("/leaves?isApproved=true", { params: filters });
-  return res.data;
+  return res.status === 204 ? [] : res.data;
 }
 
 export function useLeavesQuery(filters: LeaveFilters) {
-  const { data: leavesData = [], isFetching } = useQuery({
-    queryKey: ["leaves", filters?.fromMonth, filters?.fromYear],
-    queryFn: () => {
-      if (filters) {
-        return fetchLeaves(filters);
-      }
-      return [];
-    },
-    enabled: !!filters?.fromMonth && !!filters?.fromYear,
-  });
-
   const fromMonth = filters?.fromMonth != null ? filters.fromMonth - 1 : 1;
   const fromYear = filters?.fromYear ?? 2025;
-  const segregatedLeaves = SegregateLeaves(fromMonth, fromYear, leavesData);
+
+  const { data: segregatedLeaves = [], isFetching } = useQuery({
+    queryKey: ["leaves", filters?.fromMonth, filters?.fromYear, filters?.id],
+    queryFn: () => fetchLeaves(filters),
+    select: (data) => SegregateLeaves(fromMonth, fromYear, data),
+    enabled: !!filters?.fromMonth && !!filters?.fromYear,
+  });
 
   return { segregatedLeaves, isFetching };
 }

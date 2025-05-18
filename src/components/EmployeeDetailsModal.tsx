@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import { AdminActions } from "../utils/enums";
 import { AddEmployeePage } from "./AddEmployee";
 import { EmployeeDetails } from "./EmployeeDetails";
@@ -43,18 +44,31 @@ const EmployeeDetailsModal = ({
   employee,
   selectedAction,
 }: ActionsModalProps) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   if (!isOpen) return null;
 
   console.log("employee id", employee);
 
   return (
-    <div onClick={onClose} className="w-full backdrop-blur-sm">
+    <div
+      onClick={() => {
+        onClose();
+        searchParams.delete("employeeId");
+      }}
+      className="w-full backdrop-blur-sm"
+    >
       <div
         onClick={(e) => e.stopPropagation()}
         className=" w-full h-full bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl border border-stone-700/30 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)]"
       >
         <button
-          onClick={onClose}
+          onClick={() => {
+            onClose();
+            const newParams = new URLSearchParams(searchParams);
+            newParams.delete("employeeId");
+            newParams.delete("anotherKey");
+            setSearchParams(newParams);
+          }}
           className="absolute z-1000 top-3 right-4 text-stone-400 hover:text-red-400 text-2xl transition-colors"
         >
           ×
@@ -62,7 +76,9 @@ const EmployeeDetailsModal = ({
         {selectedAction === AdminActions.VIEW_EMPLOYEE && (
           <EmployeeDetails employee={employee} />
         )}
-        {selectedAction === AdminActions.ADD_EMPLOYEE && <AddEmployeePage onClose={onClose} />}
+        {selectedAction === AdminActions.ADD_EMPLOYEE && (
+          <AddEmployeePage onClose={onClose} />
+        )}
         {/* <div className="h-128"></div> */}
       </div>
     </div>

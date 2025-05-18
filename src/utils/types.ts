@@ -69,6 +69,7 @@ export type LeaveWfh = {
 };
 
 export type LeaveFilters = {
+  id?: string;
   fromMonth: number;
   fromYear: number;
   toMonth: number;

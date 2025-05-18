@@ -1,9 +1,8 @@
 import { ChevronLeft, ChevronRight, Home } from "lucide-react";
 import { useState } from "react";
-import { addMonths, format, startOfMonth } from "date-fns";
+import { addMonths, startOfMonth } from "date-fns";
 import HeatCalender from "./subcomponents/HeatCalender";
-
-
+// import { useLeavesQuery } from "../hooks/useLeaves";
 
 export const LeaveHeatMap = () => {
   const [offset, setOffset] = useState(2);
@@ -19,6 +18,18 @@ export const LeaveHeatMap = () => {
   };
 
   const months = getVisibleMonths();
+  console.log("Visible Months:", months);
+
+  // const ThreeMonthQueryResults = months.map((date) => {
+  //   const month = date.getMonth() + 1;
+  //   const year = date.getFullYear();
+  //   return useLeavesQuery({
+  //     fromMonth: month + 1,
+  //     fromYear: year,
+  //     toMonth: month + 1,
+  //     toYear: year,
+  //   });
+  // });
 
   return (
     <div className="flex flex-col gap-4 bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] backdrop-blur-lg w-full text-stone-300">
@@ -51,7 +62,7 @@ export const LeaveHeatMap = () => {
       </div>
 
       {/* Heatmap Content */}
-      <div className="flex flex-row gap-3 overflow-x-auto pb-1 h-full">
+      <div className="flex flex-row gap-3 pb-1 h-full">
         {months.map((date) => (
           <HeatCalender key={date.toISOString()} date={date} />
         ))}

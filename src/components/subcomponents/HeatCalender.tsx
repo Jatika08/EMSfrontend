@@ -1,3 +1,5 @@
+import { useMemo, useState } from "react";
+import { useLeavesQuery } from "../../hooks/useLeaves";
 import {
   eachDayOfInterval,
   format,
@@ -6,21 +8,46 @@ import {
   endOfMonth,
   getDay,
 } from "date-fns";
-
-const heatmapColors = [
-  "#0000FF", // Blue
-  "#3399FF", // Light Blue
-  "#66CCFF", // Sky Blue
-  "#66FFCC", // Aqua Green
-  "#66FF66", // Light Green
-  "#CCFF66", // Yellow-Green
-  "#FFFF66", // Light Yellow
-  "#FFCC33", // Orange
-  "#FF9933", // Orange-Red
-  "#FF0000", // Red
-];
+import { useSearchParams } from "react-router-dom";
 
 const HeatCalender = ({ date }) => {
+  const [searchParams] = useSearchParams();
+
+  const selectedEmployee = searchParams.get("employeeId") || "";
+
+  const [hoveredDay, setHoveredDay] = useState({
+    date: null,
+    leavesCount: 0,
+    leaves: {},
+  });
+
+  const { segregatedLeaves, isFetching } = useLeavesQuery({
+    id: selectedEmployee,
+    fromMonth: new Date(date).getMonth() + 1,
+    fromYear: new Date(date).getFullYear(),
+    toMonth: new Date(date).getMonth() + 1,
+    toYear: new Date(date).getFullYear(),
+  });
+
+  const segregatedLeavesFiltered = useMemo(() => {
+    return segregatedLeaves.map((day) => day.filter((leave) => leave.leave_id));
+  }, [segregatedLeaves]);
+
+  const handleMouseEnter = (day) => {
+    setHoveredDay({
+      date: day.date,
+      leavesCount: segregatedLeaves[new Date(day.date).getDate()]?.length,
+      leaves:
+        (segregatedLeaves[new Date(day.date).getDate()] || []).filter(
+          (leave) => leave.leave_id
+        ) || {},
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredDay({ date: null, leavesCount: 0, leaves: {} });
+  };
+
   function getMonthDatesWithPadding(date: string): ({ date: string } | {})[] {
     const monthStart = startOfMonth(parseISO(date));
     const monthEnd = endOfMonth(parseISO(date));
@@ -39,8 +66,6 @@ const HeatCalender = ({ date }) => {
 
     const dates = days.map((day) => ({
       date: format(day, "yyyy-MM-dd"),
-      leaves: Math.floor(Math.random() * 20),
-      isHoliday: Math.floor(Math.random() * 20),
     }));
 
     return [...padding, ...dates, ...endPadding];
@@ -49,6 +74,8 @@ const HeatCalender = ({ date }) => {
   const calendar = getMonthDatesWithPadding(date.toISOString());
 
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+  console.log("Leaves Data:", segregatedLeaves);
 
   return (
     <div className="relative h-110 w-full">
@@ -75,14 +102,14 @@ const HeatCalender = ({ date }) => {
                 style={
                   day.date
                     ? {
-                        // backgroundColor: `hsl(${
-                        //   400-(day.leaves / 20) * 360
-                        // }, 0, 40%)`,
                         backgroundColor: `hsl(0, 0%, ${
-                          5+ (day.leaves / 15) * 30
+                          8 +
+                          segregatedLeavesFiltered?.[
+                            new Date(day.date).getDate()
+                          ]?.length *
+                            0.7 *
+                            30
                         }%)`,
-
-                        // backgroundColor: heatmapColors[Math.floor(day.leaves/2)],
                       }
                     : {}
                 }
@@ -119,22 +146,49 @@ const HeatCalender = ({ date }) => {
               key={index}
               className={`flex items-center justify-center text-sm h-12 transition-all duration-200 ${
                 day.date
-                  ? "text-stone-100 hover:brightness-140 backdrop-blur-sm rounded-md"
-                  : new Date(day.date).toDateString() ===
-                    new Date().toDateString()
-                  ? "text-white border hover:brightness-140 backdrop-blur-sm rounded-md"
+                  ? "text-stone-100 hover:brightness-140 bg-stone-800/10 rounded-md"
                   : ""
               }`}
+              onMouseEnter={() => day.date && handleMouseEnter(day)}
+              onMouseLeave={handleMouseLeave}
             >
-              <div className=" flex flex-col gap-1 items-center font-medium text-stone-400">
+              <div className="flex  flex-col gap-1 items-center font-medium text-stone-400">
                 {day.date ? new Date(day.date).getDate() : ""}
-                {day.isHoliday < 3 ? (
-                  <div className="rounded rounded-full w-[5px] h-[5px] bg-stone-100"></div>
-                ) : (
-                  <div className="rounded rounded-full w-[5px] h-[5px]"></div>
-                )}
-                {/* {day.leaves} */}
+                <div
+                  className={`rounded-full w-[5px] h-[5px] ${
+                    day.date && day.isHoliday < 3 ? "bg-stone-100" : ""
+                  }`}
+                ></div>
               </div>
+              {hoveredDay.date === day.date && (
+                <div className="fixed flex flex-col gap-2 z-[1000] bottom-[-32px] left-0 bg-stone-900 text-white text-xs p-2 rounded-xl shadow-lg whitespace-nowrap">
+                  <div>{format(new Date(day.date), "do MMMM, yyyy")}</div>
+                  <div>Total leaves: {hoveredDay.leavesCount}</div>
+                  {hoveredDay.leavesCount > 0 && (
+                    <div className="flex flex-col gap-1">
+                      {hoveredDay.leaves.map((leave) => (
+                        <div
+                          key={leave.leave_id}
+                          className="flex items-center gap-2"
+                        >
+                          <div className="flex flex-row  items-center justify-center gap-2 p-1 px-2 bg-stone-800 rounded-xl">
+                            <div
+                              className={`w-3 h-3 rounded-full ${
+                                leave.isWfh
+                                  ? "bg-blue-500"
+                                  : leave.isCl
+                                  ? "bg-green-500"
+                                  : "bg-red-500"
+                              }`}
+                            ></div>
+                            <div className="text-center">{leave.email}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>
