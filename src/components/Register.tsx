@@ -30,7 +30,7 @@ export const RegisterPage = ({ setRegistering }: AuthPageProps) => {
     onMutate: () => {},
     onSuccess: (data) => {
       alert("Registered successfully! Please login.");
-      navigate("/login");
+      navigate("/auth");
     },
     onError: (error: any) => {
       alert(

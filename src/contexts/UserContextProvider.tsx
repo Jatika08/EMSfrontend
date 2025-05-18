@@ -30,9 +30,7 @@ export const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [email, setEmail] = useState<string | null>(
     localStorage.getItem("email")
   );
-  const [name, setName] = useState<string | null>(
-    localStorage.getItem("name")
-  );
+  const [name, setName] = useState<string | null>(localStorage.getItem("name"));
   const [currentUser, setCurrentUser] = useState<any>(null);
 
   const isLoggedIn = !!token;
@@ -75,6 +73,7 @@ export const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setLocalItem("token", token);
     setLocalItem("userId", userId);
     setLocalItem("isSuperUser", isSuperUser.toString());
+    localStorage.setItem("isModalVisible", JSON.stringify(true));
   };
 
   const logout = () => {

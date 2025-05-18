@@ -78,7 +78,10 @@ const releaseNotesDummyData = [
 ];
 
 const WelcomeModal = () => {
-  const [isModalVisible, setIsModalVisible] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(() => {
+    const stored = localStorage.getItem("isModalVisible");
+    return stored ? JSON.parse(stored) : false;
+  });
   const [isWindowVisible, setIsWindowVisible] = useState(true);
 
   useEffect(() => {
@@ -123,7 +126,10 @@ const WelcomeModal = () => {
               <div
                 className="absolute top-4 right-4 cursor-pointer hover:text-red-400"
                 onClick={() => {
-                  setIsModalVisible(false);
+                  setIsModalVisible(() => {
+                    localStorage.setItem("isModalVisible", JSON.stringify(false));
+                    return false;
+                  });
                   setIsWindowVisible(false);
                 }}
               >
