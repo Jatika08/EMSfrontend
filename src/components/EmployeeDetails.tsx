@@ -81,7 +81,7 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
     <div>
       {!employeeData?.data?.isactive && (
         <div className="absolute rounded-3xl inset-0 z-20 bg-stone-900/60 backdrop-blur-sm flex flex-row gap-4 items-center justify-center ">
-          <div className="flex flex-row gap-6 items-center justify-center w-80 h-20 bg-stone-700/20 rounded-2xl">
+          <div className="flex flex-row gap-6 items-center justify-center w-80 h-20 bg-stone-700/20 rounded-2xl shadow-xl">
             <div className="font-semibold">User Suspended</div>
             <button
               className="px-4 py-1 text-white font-semibold bg-stone-700 hover:bg-stone-900 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-stone-500 focus:ring-opacity-50 transition-all"

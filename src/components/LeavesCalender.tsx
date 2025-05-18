@@ -117,7 +117,7 @@ function LeavesCalender({
             <div className="">
               {day.isCurrentMonth && (
                 <div className=" w-full h-full mt-1 flex flex-col gap-1 overflow-y-hidden text-xs text-stone-300 ">
-                  {segregatedLeaves[day.label - 1].map((leaves) => (
+                  {segregatedLeaves[day?.label]?.map((leaves) => (
                     <div
                       className={`
                       h-5   px-1 items-center 
