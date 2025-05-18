@@ -104,9 +104,13 @@ export const useLeaveBalance = ({
     );
   }, [leavesQuery.data, firstDate, lastDate]);
 
-  return {
-    balance: leaveBalance,
-    isLoading: leavesQuery.isLoading,
-    isError: leavesQuery.isError,
-  };
+return {
+  balance: {
+    ...leaveBalance,
+    ...(month ? { clAllocated: 2, plAllocated: 2 } : { clAllocated: 12, plAllocated: 12 })
+  },
+  isLoading: leavesQuery.isLoading,
+  isError: leavesQuery.isError,
+};
+
 };

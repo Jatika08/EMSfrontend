@@ -14,11 +14,13 @@ export const DateRangeSelector = ({ onClose }) => {
   const showToast = useToast();
 
   const submitLeaveRequest = async (data: {
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
     reason: string;
     type: "leave" | "wfh";
-  }) => {
+  }) => { 
+    console.log("hello",startDate);
+    console.log("helpp",data);
     const response = await axiosInstance.post("/leaves", {
       email: localStorage.getItem("email"),
       startDate: data.startDate,
@@ -26,6 +28,7 @@ export const DateRangeSelector = ({ onClose }) => {
       reason: data.reason,
       isCl: data.type,
     });
+    
     return response.data;
   };
 
@@ -53,14 +56,25 @@ export const DateRangeSelector = ({ onClose }) => {
   });
 
   const handleSubmit = () => {
-    mutation.mutate({
-      startDate,
-      endDate,
-      reason,
-      type,
-    });
-  };
+  const formatAsLocalDateString = (date: Date) =>
+  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(
+    date.getDate()
+  ).padStart(2, "0")}`;
 
+const formattedStartDate = formatAsLocalDateString(startDate);
+const formattedEndDate = formatAsLocalDateString(endDate);
+
+
+  mutation.mutate({
+    startDate: formattedStartDate,
+    endDate: formattedEndDate,
+    reason,
+    type,
+  });
+};
+
+  
+  console.log(startDate);
   return (
     <div className="flex flex-col gap-8 h-150  w-full px-6 py-6 rounded-3xl bg-gradient-to-br from-stone-900 to-stone-950 border border-stone-700/30 shadow-[inset_0_0_30px_rgba(0,0,0,0.3)] mt-2 overflow-y-scroll">
       {/* Date Selection */}
