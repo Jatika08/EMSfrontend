@@ -2,14 +2,10 @@ import { useContext } from "react";
 import { UserActions } from "../utils/enums";
 import {
   CalendarCheck,
-  PlusCircle,
   Clock,
   History,
   LogOut,
-  UserCog,
-  Users,
-  ShieldCheck,
-  FileBarChart2,
+  PlusCircle
 } from "lucide-react";
 import { UserContext } from "../contexts/UserContextProvider";
 
@@ -33,14 +29,14 @@ function DashboardHeader({
   setModalType: React.Dispatch<React.SetStateAction<UserActions>>;
 }) {
   const greeting = getGreeting();
-  const { name, isSuperUser } = useContext(UserContext);
+  const { name } = useContext(UserContext);
 
   return (
     <div className="w-full bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200">
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-400">
-            {greeting}, {name || userName} 👋
+            {greeting}, {name || userName} 
           </h1>
           <p className="text-stone-400 text-sm mt-1">
             Here&apos;s what’s happening with your leaves today.
@@ -95,44 +91,6 @@ function DashboardHeader({
           }}
         />
       </div>
-
-      {/* Admin-only actions */}
-      {false && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-6 pt-4 border-t border-stone-700/40">
-          <QuickAction
-            icon={<Users size={18} />}
-            label="Manage Employees"
-            onClick={() => {
-              setModalOpen(true);
-              setModalType(UserActions.VIEW_EMPLOYEE);
-            }}
-          />
-          <QuickAction
-            icon={<UserCog size={18} />}
-            label="Leave Approvals"
-            onClick={() => {
-              setModalOpen(true);
-              setModalType(UserActions.VIEW_EMPLOYEE);
-            }}
-          />
-          <QuickAction
-            icon={<ShieldCheck size={18} />}
-            label="Admin Settings"
-            onClick={() => {
-              setModalOpen(true);
-              setModalType(UserActions.VIEW_EMPLOYEE);
-            }}
-          />
-          <QuickAction
-            icon={<FileBarChart2 size={18} />}
-            label="Reports"
-            onClick={() => {
-              setModalOpen(true);
-              setModalType(UserActions.VIEW_EMPLOYEE);
-            }}
-          />
-        </div>
-      )}
     </div>
   );
 }

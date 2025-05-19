@@ -19,8 +19,7 @@ export const DateRangeSelector = ({ onClose }) => {
     reason: string;
     type: "leave" | "wfh";
   }) => { 
-    console.log("hello",startDate);
-    console.log("helpp",data);
+   
     const response = await axiosInstance.post("/leaves", {
       email: localStorage.getItem("email"),
       startDate: data.startDate,
@@ -74,7 +73,7 @@ const formattedEndDate = formatAsLocalDateString(endDate);
 };
 
   
-  console.log(startDate);
+  
   return (
     <div className="flex flex-col gap-8 h-150  w-full px-6 py-6 rounded-3xl bg-gradient-to-br from-stone-900 to-stone-950 border border-stone-700/30 shadow-[inset_0_0_30px_rgba(0,0,0,0.3)] mt-2 overflow-y-scroll">
       {/* Date Selection */}
