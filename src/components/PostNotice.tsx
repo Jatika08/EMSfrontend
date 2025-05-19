@@ -2,12 +2,13 @@ import { useState } from "react";
 import { ClipboardSignature, FileText } from "lucide-react";
 import axiosInstance from "../utils/axiosInstance";
 import { useToast } from "../contexts/CustomToast";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const PostNotice = ({ onClose }) => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const showToast = useToast();
+  const queryClient = useQueryClient(); // for refetching notices
 
   const addNotice = async (data) => {
     const response = await axiosInstance.post("/notices", data);
@@ -16,24 +17,32 @@ export const PostNotice = ({ onClose }) => {
 
   const noticeMutation = useMutation({
     mutationFn: addNotice,
-    onSuccess: (data) => {
+    onSuccess: () => {
       showToast("Notice was posted successfully");
-      console.log("Response:", data);
+      queryClient.invalidateQueries({ queryKey: ["notices"] }); // refetch notices
+      onClose();
     },
     onError: (error) => {
       showToast("Failed to post Notice.");
-      console.error("Error adding employee:", error);
-    },
-    onSettled: () => {
-      onClose();
+      console.error("Error posting notice:", error);
     },
   });
 
   const handleSubmit = () => {
-    const data = { title, text };
-    console.log("Posting Notice:", data);
-    noticeMutation.mutate(data);
+  const data = {
+    notice_title: String(title).trim(),
+    notice_text: String(text).trim(),
   };
+
+  if (!data.notice_title || !data.notice_text) {
+    showToast("Both Title and Description are required");
+    return;
+  }
+
+  noticeMutation.mutate(data);
+};
+
+  
 
   return (
     <div className="flex flex-col gap-8 w-full px-6 py-6 rounded-3xl bg-gradient-to-br from-stone-900 to-stone-950 border border-stone-700/30 shadow-[inset_0_0_30px_rgba(0,0,0,0.3)] mt-2">
