@@ -31,8 +31,14 @@ const suspendEmployee = async ({
   } else {
     response = await axiosInstance.patch(url);
   }
-
   return response.data;
+};
+
+const getSelectedEmployeeLeaves = async (employeeId: string) => {
+  const res = await axiosInstance.get(
+    `/leaves/?id=${employeeId}`
+  );
+  return res.data;
 };
 
 export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
@@ -43,8 +49,6 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
 
   const selectedEmployee = searchParams.get("employeeId") || "";
 
-  console.log("Selected Employee ID:", selectedEmployee);
-
   const employeeData = useQuery({
     queryKey: ["user", selectedEmployee],
     queryFn: async () => {
@@ -54,7 +58,13 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
     enabled: !!selectedEmployee,
   });
 
-  console.log("Employee Data xdxd:", employeeData.data);
+  const leaveDetails = useQuery({
+    queryKey: ["leaveDetails", selectedEmployee],
+    queryFn: () => getSelectedEmployeeLeaves(selectedEmployee),
+    enabled: !!selectedEmployee,
+  });
+
+  console.log("employeeData", leaveDetails.data);
 
   const disableEmployeeMutation = useMutation({
     mutationFn: suspendEmployee,
@@ -68,7 +78,6 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
       queryClient.invalidateQueries({
         queryKey: ["user", selectedEmployee],
       });
-      
     },
     onError: (error) => {
       showToast("Failed to disable employee.");
@@ -87,7 +96,6 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
             <button
               className="px-4 py-1 text-white font-semibold bg-stone-700 hover:bg-stone-900 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-stone-500 focus:ring-opacity-50 transition-all"
               onClick={() =>
-                
                 disableEmployeeMutation.mutate({
                   email: employeeData?.data?.email,
                   isActive: employeeData?.data?.isactive,
@@ -143,9 +151,8 @@ export const EmployeeDetails = ({ employee }: { employee: Employee }) => {
         </div>
 
         {/* Leave Summary */}
-
         <div className="flex flex-col gap-3 px-6">
-          {employee?.leaveDetails?.map((leave) => {
+          {leaveDetails?.data?.map((leave) => {
             const start = new Date(leave.start_date);
             const end = new Date(leave.end_date);
             const totalDays =
