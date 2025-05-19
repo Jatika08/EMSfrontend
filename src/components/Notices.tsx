@@ -48,7 +48,7 @@ export const Notices = ({
   };
 
   return (
-    <div className="bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_12px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200 max-h-[420px]">
+    <div className="bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_12px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200">
       <div className="flex flex-row justify-between">
         <h2 className="text-2xl mb-5 font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-400 tracking-wide">
           Leave Notices
@@ -74,50 +74,60 @@ export const Notices = ({
         ) : !notices?.length ? (
           <p className="text-stone-400 text-sm">No notices yet.</p>
         ) : (
-          notices.map((notice: any, idx: number) => (
-            <div
-              key={notice.notice_id || idx}
-              className="bg-stone-800/70 rounded-xl p-2 px-4 transition-all duration-300 ease-in-out hover:bg-stone-700/70 hover:shadow-md"
-            >
-              <div className="flex items-center justify-between cursor-pointer">
-                <div onClick={() => toggleNotice(idx)}>
-                  <p className="text-md font-semibold">{notice.notice_title}</p>
-                  <p className="text-xs text-stone-400">
-                    {new Date(notice.notice_time).toLocaleDateString("en-IN", {
-                      year: "numeric",
-                      month: "short",
-                      day: "2-digit",
-                    })}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  {isSuperUser && (
-                    <button
-                      onClick={() => handleDelete(notice.notice_id)}
-                      className="text-red-400 hover:text-red-600"
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  )}
-                  {expandedIndex === idx ? (
-                    <ChevronUp size={18} className="text-stone-400" />
-                  ) : (
-                    <ChevronDown size={18} className="text-stone-400" />
-                  )}
-                </div>
-              </div>
-
+          notices.map((notice: any, idx: number) => {
+            const isExpanded = expandedIndex === idx;
+            return (
               <div
-                className={`text-sm text-stone-300 mt-3 overflow-hidden transition-all duration-300 ease-in-out ${
-                  expandedIndex === idx
-                    ? "max-h-40 opacity-100"
-                    : "max-h-0 opacity-0"
-                }`}
+                key={notice.notice_id || idx}
+                className="bg-stone-800/70  h-full rounded-xl p-2 px-4 hover:bg-stone-700/70 hover:shadow-md transition-all duration-300 ease-in-out"
               >
-                {notice.notice_text}
+                <div
+                  className="flex items-center justify-between cursor-pointer "
+                  onClick={() => toggleNotice(idx)}
+                >
+                  <div>
+                    <p className="text-md font-semibold">
+                      {notice.notice_title}
+                    </p>
+                    <p className="text-xs text-stone-400">
+                      {new Date(notice.notice_time).toLocaleDateString(
+                        "en-IN",
+                        {
+                          year: "numeric",
+                          month: "short",
+                          day: "2-digit",
+                        }
+                      )}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {isSuperUser && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(notice.notice_id);
+                        }}
+                        className="text-stone-400 hover:text-red-600"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    )}
+                    {isExpanded ? (
+                      <ChevronUp size={18} className="text-stone-400" />
+                    ) : (
+                      <ChevronDown size={18} className="text-stone-400" />
+                    )}
+                  </div>
+                </div>
+
+                {isExpanded && (
+                  <div className="text-sm text-stone-300 mt-3 animate-fade-in">
+                    {notice.notice_text}
+                  </div>
+                )}
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
     </div>

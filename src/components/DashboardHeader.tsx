@@ -3,9 +3,13 @@ import { UserActions } from "../utils/enums";
 import {
   CalendarCheck,
   Clock,
+  FileBarChart2,
   History,
   LogOut,
-  PlusCircle
+  PlusCircle,
+  ShieldCheck,
+  UserCog,
+  Users,
 } from "lucide-react";
 import { UserContext } from "../contexts/UserContextProvider";
 
@@ -36,7 +40,7 @@ function DashboardHeader({
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-400">
-            {greeting}, {name || userName} 
+            {greeting}, {name || userName}
           </h1>
           <p className="text-stone-400 text-sm mt-1">
             Here&apos;s what’s happening with your leaves today.
@@ -91,6 +95,42 @@ function DashboardHeader({
           }}
         />
       </div>
+      {false && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-6 pt-4 border-t border-stone-700/40">
+          <QuickAction
+            icon={<Users size={18} />}
+            label="Manage Employees"
+            onClick={() => {
+              setModalOpen(true);
+              setModalType(UserActions.VIEW_EMPLOYEE);
+            }}
+          />
+          <QuickAction
+            icon={<UserCog size={18} />}
+            label="Leave Approvals"
+            onClick={() => {
+              setModalOpen(true);
+              setModalType(UserActions.VIEW_EMPLOYEE);
+            }}
+          />
+          <QuickAction
+            icon={<ShieldCheck size={18} />}
+            label="Admin Settings"
+            onClick={() => {
+              setModalOpen(true);
+              setModalType(UserActions.VIEW_EMPLOYEE);
+            }}
+          />
+          <QuickAction
+            icon={<FileBarChart2 size={18} />}
+            label="Reports"
+            onClick={() => {
+              setModalOpen(true);
+              setModalType(UserActions.VIEW_EMPLOYEE);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
