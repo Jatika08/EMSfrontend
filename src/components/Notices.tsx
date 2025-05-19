@@ -48,7 +48,7 @@ export const Notices = ({
   };
 
   return (
-    <div className="bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_12px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200">
+    <div className="bg-gradient-to-br from-stone-800/80 to-stone-900/80 rounded-3xl p-6 border border-stone-700/30 shadow-[inset_0_0_12px_rgba(0,0,0,0.4)] backdrop-blur-lg text-stone-200 h-80">
       <div className="flex flex-row justify-between">
         <h2 className="text-2xl mb-5 font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-stone-400 tracking-wide">
           Leave Notices
@@ -66,7 +66,7 @@ export const Notices = ({
         )}
       </div>
 
-      <div className="flex flex-col gap-4 h-80 overflow-y-auto scroll-smooth">
+      <div className="flex flex-col gap-2 h-55 overflow-y-scroll scroll-smooth">
         {isLoading ? (
           <p className="text-stone-400 text-sm">Loading notices...</p>
         ) : isError ? (
@@ -79,7 +79,10 @@ export const Notices = ({
             return (
               <div
                 key={notice.notice_id || idx}
-                className="bg-stone-800/70  h-full rounded-xl p-2 px-4 hover:bg-stone-700/70 hover:shadow-md transition-all duration-300 ease-in-out"
+                className={`bg-stone-800/70 rounded-xl p-2 px-4 hover:bg-stone-700/70 hover:shadow-md transition-all duration-300 ease-in-out ${
+                  isExpanded ? "h-50" : "h-40"
+                }
+                `}
               >
                 <div
                   className="flex items-center justify-between cursor-pointer "
